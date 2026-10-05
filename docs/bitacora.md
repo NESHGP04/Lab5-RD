@@ -48,6 +48,16 @@
 - Riesgo: la red 192.168.68.0/22 es la de la casa de Marines; los demás deben estar en esa misma red para las pruebas conjuntas
   (o acordar otra red/hotspot y recalcular IPs).
 
+**6. BIND9 funcionando en la VM (2026-10-05 UTC)**
+- Archivos copiados con `scp` a la VM; `named-checkconf -z` y `named-checkzone` OK (serial 2026100402).
+- IP fija `192.168.71.10/22` aplicada con netplan (`50-cloud-init.yaml` desactivado).
+- Primer `dig` devolvió NXDOMAIN de los root servers y sin `aa`: `apt install` había arrancado `named` con la config por defecto y
+  `enable --now` no lo recargó. Se resolvió con `sudo systemctl restart named`. (Un intento falló por teclear `names` en vez de `named`.)
+- Tras el reinicio: SOA autoritativo con `aa` y serial 2026100402.
+- `./scripts/test-dns.sh` ejecutado en la VM: DNS-01..05, WEB-01, MAIL-01, FTP-01 correctos; INT-01 parcial (solo desde ns1).
+  Resultados detallados en `docs/pruebas-dns.md`. Archivo de evidencia en la VM: `~/evidencias/dns/pruebas-dns-20261005-010740.txt`.
+- Aclaración de uso: comandos de Mac (`scp`, `cd ~/Documents/...`) ejecutados por error dentro de la VM; sin daño.
+
 **Pendiente / bloqueos**
 - ~~Decisión de red~~ → Bridged. Falta que el equipo confirme red Wi-Fi común y sus IPs (bloque 192.168.71.x propuesto).
 - Ejecutar la guía en la VM y tomar capturas reales.

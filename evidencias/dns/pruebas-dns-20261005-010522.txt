@@ -1,0 +1,171 @@
+Fecha: Mon Oct  5 01:05:22 AM UTC 2026  |  Host: ns1  |  Servidor DNS: 192.168.71.10
+
+##### DNS-01 Resolución de ns1 #####
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.7-Ubuntu <<>> @192.168.71.10 ns1.agencia.redes.test A
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 36752
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 81796041843a0965010000006ac2f7d20f2cf50b61ba2893 (good)
+;; QUESTION SECTION:
+;ns1.agencia.redes.test.		IN	A
+
+;; ANSWER SECTION:
+ns1.agencia.redes.test.	604800	IN	A	192.168.71.10
+
+;; Query time: 0 msec
+;; SERVER: 192.168.71.10#53(192.168.71.10) (UDP)
+;; WHEN: Mon Oct 05 01:05:22 UTC 2026
+;; MSG SIZE  rcvd: 95
+
+##### DNS-02 Resolución de ldap, www, mail, ftp #####
+--- ldap.agencia.redes.test
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 48172
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 9f1831a46235be7c010000006ac2f7d24a5c0420afa2c404 (good)
+;; ANSWER SECTION:
+ldap.agencia.redes.test. 604800	IN	A	192.168.71.11
+
+--- www.agencia.redes.test
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 60497
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 234f96317d02251a010000006ac2f7d217955b3a87342c65 (good)
+;; ANSWER SECTION:
+www.agencia.redes.test.	604800	IN	A	192.168.71.12
+
+--- mail.agencia.redes.test
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 28591
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: a223e0426f33d813010000006ac2f7d2c5d4f1040a5cad6b (good)
+;; ANSWER SECTION:
+mail.agencia.redes.test. 604800	IN	A	192.168.71.13
+
+--- ftp.agencia.redes.test
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 37033
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: a587ebbd0ba99007010000006ac2f7d2924eceb16e28c2a1 (good)
+;; ANSWER SECTION:
+ftp.agencia.redes.test.	604800	IN	A	192.168.71.14
+
+##### DNS-03 SOA (buscar flag 'aa') #####
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.7-Ubuntu <<>> @192.168.71.10 agencia.redes.test SOA
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 47459
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 315c6e2126acd608010000006ac2f7d299f5c2187eb528a6 (good)
+;; QUESTION SECTION:
+;agencia.redes.test.		IN	SOA
+
+;; ANSWER SECTION:
+agencia.redes.test.	604800	IN	SOA	ns1.agencia.redes.test. admin.agencia.redes.test. 2026100402 3600 1800 604800 86400
+
+;; Query time: 0 msec
+;; SERVER: 192.168.71.10#53(192.168.71.10) (UDP)
+;; WHEN: Mon Oct 05 01:05:22 UTC 2026
+;; MSG SIZE  rcvd: 121
+
+##### NS #####
+agencia.redes.test.	604800	IN	NS	ns1.agencia.redes.test.
+##### DNS-04 / MAIL-01 MX #####
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.7-Ubuntu <<>> @192.168.71.10 agencia.redes.test MX
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 49809
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 13d0412d456b45a9010000006ac2f7d2f76786ead9b4bbd3 (good)
+;; QUESTION SECTION:
+;agencia.redes.test.		IN	MX
+
+;; ANSWER SECTION:
+agencia.redes.test.	604800	IN	MX	10 mail.agencia.redes.test.
+
+;; ADDITIONAL SECTION:
+mail.agencia.redes.test. 604800	IN	A	192.168.71.13
+
+;; Query time: 0 msec
+;; SERVER: 192.168.71.10#53(192.168.71.10) (UDP)
+;; WHEN: Mon Oct 05 01:05:22 UTC 2026
+;; MSG SIZE  rcvd: 112
+
+##### DNS-05 Nombre inexistente (NXDOMAIN) #####
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.7-Ubuntu <<>> @192.168.71.10 noexiste.agencia.redes.test A
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 62977
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: b1ac813d43e47108010000006ac2f7d211753c4a1c81c3e0 (good)
+;; QUESTION SECTION:
+;noexiste.agencia.redes.test.	IN	A
+
+;; AUTHORITY SECTION:
+agencia.redes.test.	86400	IN	SOA	ns1.agencia.redes.test. admin.agencia.redes.test. 2026100402 3600 1800 604800 86400
+
+;; Query time: 0 msec
+;; SERVER: 192.168.71.10#53(192.168.71.10) (UDP)
+;; WHEN: Mon Oct 05 01:05:22 UTC 2026
+;; MSG SIZE  rcvd: 130
+
+##### WEB-01 www #####
+Server:		192.168.71.10
+Address:	192.168.71.10#53
+
+Name:	www.agencia.redes.test
+Address: 192.168.71.12
+
+##### MAIL-01 mail #####
+Server:		192.168.71.10
+Address:	192.168.71.10#53
+
+Name:	mail.agencia.redes.test
+Address: 192.168.71.13
+
+##### FTP-01 ftp #####
+Server:		192.168.71.10
+Address:	192.168.71.10#53
+
+Name:	ftp.agencia.redes.test
+Address: 192.168.71.14
+
+##### Resolución por defecto del sistema (sin @servidor) -> INT-01 #####
+--- ns1.agencia.redes.test -> 192.168.71.10
+--- ldap.agencia.redes.test -> 192.168.71.11
+--- www.agencia.redes.test -> 192.168.71.12
+--- mail.agencia.redes.test -> 192.168.71.13
+--- ftp.agencia.redes.test -> 192.168.71.14
