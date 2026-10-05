@@ -1,0 +1,33 @@
+; =============================================================
+; Zona: agencia.redes.test  (Concesionaria de vehículos)
+; Servidor autoritativo: ns1.agencia.redes.test
+; Lab 5 - CC3067 Redes - UVG
+;
+; IMPORTANTE: cada vez que se edite este archivo hay que
+; AUMENTAR el serial (formato AAAAMMDDNN) y hacer:
+;   sudo named-checkzone agencia.redes.test /etc/bind/zones/db.agencia.redes.test
+;   sudo rndc reload agencia.redes.test
+;
+; IPs PROVISIONALES (red Bridged 192.168.68.0/22, gateway 192.168.68.1) - confirmar con el equipo
+; =============================================================
+$TTL    604800
+
+@       IN      SOA     ns1.agencia.redes.test. admin.agencia.redes.test. (
+                        2026100402      ; Serial (AAAAMMDDNN)
+                        3600            ; Refresh
+                        1800            ; Retry
+                        604800          ; Expire
+                        86400 )         ; Negative Cache TTL
+
+; --- Servidor de nombres ---
+@       IN      NS      ns1.agencia.redes.test.
+
+; --- Servidor de correo (MX) ---
+@       IN      MX      10 mail.agencia.redes.test.
+
+; --- Registros A de los servicios ---
+ns1     IN      A       192.168.71.10      ; DNS  (BIND9)        - Marines
+ldap    IN      A       192.168.71.11      ; LDAP (OpenLDAP)     - Cisco
+www     IN      A       192.168.71.12      ; Web  (Apache)       - Carlitos
+mail    IN      A       192.168.71.13      ; Correo (Postfix/Dovecot) - Kevin
+ftp     IN      A       192.168.71.14      ; FTP  (vsftpd)       - Cami

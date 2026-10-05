@@ -1,0 +1,9 @@
+// /etc/bind/named.conf.local
+// Zona autoritativa del grupo (Concesionaria de vehículos)
+
+zone "agencia.redes.test" {
+    type master;
+    file "/etc/bind/zones/db.agencia.redes.test";
+    allow-transfer { none; };   // sin servidor secundario en este lab
+    notify no;
+};

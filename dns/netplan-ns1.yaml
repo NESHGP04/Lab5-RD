@@ -1,0 +1,17 @@
+# /etc/netplan/01-ns1.yaml   (aplicar con: sudo netplan apply)
+# IP FIJA de la VM de DNS (modo Bridged).
+# Red: 192.168.68.0/22 · gateway 192.168.68.1 (el DHCP del router dio 192.168.68.50 a la VM).
+# Se usa 192.168.71.10 para no chocar con las IPs que reparte el DHCP.
+# Aplicar DESPUÉS de instalar BIND9 (el DNS de la VM es ella misma).
+network:
+  version: 2
+  ethernets:
+    enp0s1:                       # <- verificar con `ip -br a`
+      dhcp4: false
+      addresses: [192.168.71.10/22]
+      routes:
+        - to: default
+          via: 192.168.68.1
+      nameservers:
+        addresses: [127.0.0.1]    # el propio BIND9
+        search: [agencia.redes.test]

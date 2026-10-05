@@ -1,0 +1,40 @@
+=== named-checkconf ===
+zone agencia.redes.test/IN: loaded serial 2026100402
+zone localhost/IN: loaded serial 2
+zone 127.in-addr.arpa/IN: loaded serial 1
+zone 0.in-addr.arpa/IN: loaded serial 1
+zone 255.in-addr.arpa/IN: loaded serial 1
+named-checkconf: OK
+
+=== named-checkzone ===
+zone agencia.redes.test/IN: loaded serial 2026100402
+OK
+
+=== DNS-01 ns1 (A) ===
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+; EDNS: version: 0, flags:; udp: 1232
+ns1.agencia.redes.test.	604800	IN	A	192.168.71.10
+
+=== DNS-02 ldap/www/mail/ftp (A) ===
+ldap -> 192.168.71.11
+www -> 192.168.71.12
+mail -> 192.168.71.13
+ftp -> 192.168.71.14
+
+=== DNS-03 SOA (flag aa) ===
+; <<>> DiG 9.18.39-0ubuntu0.24.04.7-Ubuntu <<>> @127.0.0.1 agencia.redes.test SOA
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+; EDNS: version: 0, flags:; udp: 1232
+;agencia.redes.test.		IN	SOA
+agencia.redes.test.	604800	IN	SOA	ns1.agencia.redes.test. admin.agencia.redes.test. 2026100402 3600 1800 604800 86400
+
+=== NS ===
+agencia.redes.test.	604800	IN	NS	ns1.agencia.redes.test.
+
+=== DNS-04 MX ===
+agencia.redes.test.	604800	IN	MX	10 mail.agencia.redes.test.
+
+=== DNS-05 inexistente (NXDOMAIN) ===
+;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 5923
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+; EDNS: version: 0, flags:; udp: 1232

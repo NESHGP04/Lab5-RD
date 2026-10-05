@@ -1,0 +1,22 @@
+// /etc/bind/named.conf.options
+// BIND9 autoritativo para agencia.redes.test + resolver para la red local
+
+options {
+    directory "/var/cache/bind";
+
+    // IP fija del servidor DNS (provisional, confirmar con el equipo)
+    listen-on { 127.0.0.1; 192.168.71.10; };
+    listen-on-v6 { none; };
+
+    // Cualquier cliente de la red del grupo puede consultar
+    allow-query { 127.0.0.1; 192.168.68.0/22; };
+
+    // Recursión solo para la red local: las VMs usan ns1 como único DNS
+    // y así siguen resolviendo nombres externos (apt, etc.)
+    recursion yes;
+    allow-recursion { 127.0.0.1; 192.168.68.0/22; };
+    forwarders { 1.1.1.1; 8.8.8.8; };
+
+    dnssec-validation no;
+    allow-transfer { none; };
+};
