@@ -1,0 +1,23 @@
+INT-01 desde Mac – Sun Oct  4 19:25:03 CST 2026
+--- /etc/hosts
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1	localhost
+255.255.255.255	broadcasthost
+::1             localhost
+--- DNS configurado
+  nameserver[0] : 192.168.71.10
+  nameserver[0] : 192.168.71.10
+ns1.agencia.redes.test -> 192.168.71.10
+ldap.agencia.redes.test -> 192.168.71.11
+www.agencia.redes.test -> 192.168.71.12
+mail.agencia.redes.test -> 192.168.71.13
+ftp.agencia.redes.test -> 192.168.71.14
+--- MX
+10 mail.agencia.redes.test.
+--- inexistente
+;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 43401

@@ -58,9 +58,27 @@
   Resultados detallados en `docs/pruebas-dns.md`. Archivo de evidencia en la VM: `~/evidencias/dns/pruebas-dns-20261005-010740.txt`.
 - Aclaración de uso: comandos de Mac (`scp`, `cd ~/Documents/...`) ejecutados por error dentro de la VM; sin daño.
 
+**7. INT-02 – reinicio (2026-10-05 01:14 UTC)**
+- `sudo reboot` en ns1. Al volver: `named` enabled y active (running) desde 01:14:43, IP fija persistente y `dig` del SOA con `aa`
+  y serial 2026100402. INT-02 ✅ (captura guardada por Marines).
+- Evidencias traídas al repo: `evidencias/dns/pruebas-dns-20261005-010522.txt` y `...010740.txt` (misma corrida repetida; la válida es 010740).
+
+**8. INT-03 – puertos (2026-10-05)**
+- `ss -lntup | grep :53` tras el reinicio: `named` en 53 UDP/TCP solo en 127.0.0.1 y 192.168.71.10 (sin IPv6, como en la config);
+  `systemd-resolved` en 127.0.0.53/.54 sin conflicto. INT-03 ✅.
+
+**9. INT-04 – logs (2026-10-05)**
+- `journalctl -u named`: arranque correcto, zona `agencia.redes.test` cargada (serial 2026100402), `all zones loaded`, `running`.
+- Ruido en el log: `network unreachable resolving './NS/IN': 2001:...` (IPv6 inexistente en la VM). Solución opcional: `-4` en `/etc/default/named`.
+- `rndc querylog on` + dos `dig` (01:21 UTC): el log registra `query: www.agencia.redes.test IN A` y `query: noexiste... IN A`. INT-04 ✅.
+
+**10. INT-01 desde un cliente (2026-10-04 19:25 CST)**
+- Mac de Marines con DNS = 192.168.71.10 (`networksetup`), `/etc/hosts` solo con entradas por defecto: los 5 FQDN resuelven sin `@`,
+  MX correcto y NXDOMAIN para nombre inexistente. Evidencia: `evidencias/dns/int01-desde-mac.txt`. INT-01 ✅.
+- Con esto quedan ✅ todas las pruebas DNS asignadas a Marines (DNS-01..05, WEB-01, MAIL-01, FTP-01, INT-01..04).
+- Recordatorio: restaurar el DNS de la Mac al terminar (`sudo networksetup -setdnsservers Wi-Fi Empty`).
+
 **Pendiente / bloqueos**
 - ~~Decisión de red~~ → Bridged. Falta que el equipo confirme red Wi-Fi común y sus IPs (bloque 192.168.71.x propuesto).
-- Ejecutar la guía en la VM y tomar capturas reales.
-- Crear la VM de ns1 y ejecutar la guía en ella; tomar capturas reales.
 - Falta zona inversa (PTR): opcional; evaluar si Kevin la necesita para el correo.
 - Diagrama final y exportación a imagen para el PDF.
