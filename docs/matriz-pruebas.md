@@ -1,7 +1,7 @@
 # Matriz de pruebas internas (Ejercicio 6 – Ernesto)
 
 Cliente de pruebas: **Mac de Ernesto**, DNS del Wi-Fi = `192.168.71.10`, `/etc/hosts` sin entradas de `agencia.redes.test`.
-Estado: ⬜ pendiente · ✅ pasó (con evidencia) · ❌ falló · 🟨 script OK, falta captura/log manual
+Estado: ⬜ pendiente · ✅ pasó (con evidencia) · ❌ falló
 Corrida 2026-10-07 17:39: **28 PASS, 0 FAIL** (`FTP_DIR=files/ SMTP_PORT=25 ./scripts/test-matriz.sh`). Mail: SMTP en puerto 25 (587 cerrado). FTP: usuario local `ftpuser1`, pasivo 40000–40010.
 
 ```bash
@@ -33,15 +33,15 @@ Las claves se pasan por variable de entorno; no se suben al repo. Lo marcado **m
 | MAIL-04 | Auth inválida | clave errónea + log Dovecot | rechazo | `Login denied` | `mail-04.png` + log + `evidencias/matriz/matriz-20261007-173955.txt` + `evidencias/mail/mail-04.txt` | ✅ |
 | MAIL-05 | Envío interno | Thunderbird usuario1 → usuario2 + `journalctl -u postfix` | `status=sent` | SMTP (25) aceptó, ernesto→kevin | enviado + log + `evidencias/matriz/matriz-20261007-173955.txt` + `evidencias/mail/mail-05.txt` | ✅ |
 | MAIL-06 | Recepción IMAP | Thunderbird usuario2, INBOX | mensaje aparece | mensaje en INBOX de kevin.villagran | `mail-06.png` + `evidencias/matriz/matriz-20261007-173955.txt` + `evidencias/mail/mail-06.txt` | ✅ |
-| MAIL-07 | Destinatario inexistente | enviar a `noexiste@agencia.redes.test` + log Postfix | `550` / bounce | `RCPT failed: 550` | captura + log + `evidencias/matriz/matriz-20261007-173955.txt` | 🟨 |
+| MAIL-07 | Destinatario inexistente | enviar a `noexiste@agencia.redes.test` + log Postfix | `550` / bounce | `RCPT failed: 550` | captura + log + `evidencias/matriz/matriz-20261007-173955.txt` | ✅ |
 | FTP-01 | Resolución ftp | `dig ftp.agencia.redes.test +short` | 192.168.71.14 | .14 | `pruebas-dns-…010740.txt` | ✅ |
-| FTP-02 | Auth válida | `ftp ftp.agencia.redes.test` (usuario autorizado) | `230` | login OK (`ftpuser1`) | captura + `evidencias/matriz/matriz-20261007-173955.txt` | 🟨 |
-| FTP-03 | Auth inválida | clave errónea | `530` | `530` | captura + `evidencias/matriz/matriz-20261007-173955.txt` | 🟨 |
-| FTP-04 | Anónimo | `anonymous` | `530` | `530` | captura + `evidencias/matriz/matriz-20261007-173955.txt` | 🟨 |
-| FTP-05 | Listado | `ls` | contenido autorizado | lista `files` | captura + `evidencias/matriz/matriz-20261007-173955.txt` | 🟨 |
-| FTP-06 | Carga | `put prueba.txt`; en el servidor `ls -l` del directorio | archivo existe | carga OK en `files/` | captura + ls + `evidencias/matriz/matriz-20261007-173955.txt` | 🟨 |
-| FTP-07 | Descarga | `get prueba.txt`; `shasum` igual al original | idéntico | `shasum` idéntico | captura + shasum + `evidencias/matriz/matriz-20261007-173955.txt` | 🟨 |
-| FTP-08 | Restricción | `cd /etc`, `cd ../..` | `550`, sigue enjaulado | `denied to change directory` | captura + `evidencias/matriz/matriz-20261007-173955.txt` | 🟨 |
+| FTP-02 | Auth válida | `ftp ftp.agencia.redes.test` (usuario autorizado) | `230` | login OK (`ftpuser1`) | captura + `evidencias/matriz/matriz-20261007-173955.txt` | ✅ |
+| FTP-03 | Auth inválida | clave errónea | `530` | `530` | captura + `evidencias/matriz/matriz-20261007-173955.txt` | ✅ |
+| FTP-04 | Anónimo | `anonymous` | `530` | `530` | captura + `evidencias/matriz/matriz-20261007-173955.txt` | ✅ |
+| FTP-05 | Listado | `ls` | contenido autorizado | lista `files` | captura + `evidencias/matriz/matriz-20261007-173955.txt` | ✅ |
+| FTP-06 | Carga | `put prueba.txt`; en el servidor `ls -l` del directorio | archivo existe | carga OK en `files/` | captura + ls + `evidencias/matriz/matriz-20261007-173955.txt` | ✅ |
+| FTP-07 | Descarga | `get prueba.txt`; `shasum` igual al original | idéntico | `shasum` idéntico | captura + shasum + `evidencias/matriz/matriz-20261007-173955.txt` | ✅ |
+| FTP-08 | Restricción | `cd /etc`, `cd ../..` | `550`, sigue enjaulado | `denied to change directory` | captura + `evidencias/matriz/matriz-20261007-173955.txt` | ✅ |
 | INT-01 | Solo FQDN | `cat /etc/hosts`, `scutil --dns`, pruebas sin IP | todo funciona | Todo por FQDN; `/etc/hosts` sin entradas; DNS del Mac = 192.168.71.10 | `evidencias/matriz/matriz-20261007-173955.txt`, `evidencias/dns/int01-desde-mac.txt` | ✅ |
 | INT-02 | Reinicio | **manual** en cada VM: `sudo reboot`; `systemctl status <svc>`; repetir pruebas | persiste | 5 servicios `active` tras reinicio; matriz repetida: 28 PASS | `evidencias/{ldap,web,mail,ftp}/`, `evidencias/dns/INT-02.png`, `evidencias/matriz/matriz-20261007-183236.txt` | ✅ |
 | INT-03 | Puertos | **manual** en cada VM: `sudo ss -lntup` | 53, 389, 80, 25/587, 143, 21 + rango pasivo | 53, 389, 80, 25/143/993, 21 escuchando; pasivo 40000–40010 (`pasv_*` en `evidencias/ftp/`) | `ss -lntup` en cada carpeta; `evidencias/resumen-por-prueba.txt` | ✅ |
