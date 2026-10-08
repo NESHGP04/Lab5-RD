@@ -1,0 +1,125 @@
+Evidencia ldap | Thu Oct  8 12:08:56 AM UTC 2026 | Host: ldap | IP: 10.0.2.15 192.168.56.10 192.168.71.11 fd17:625c:f037:2:a00:27ff:fef8:63b5 
+
+##### INT-03 puertos (ss -lntup) #####
+Netid State  Recv-Q Send-Q    Local Address:Port Peer Address:PortProcess                                               
+udp   UNCONN 0      0            127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=608,fd=16))            
+udp   UNCONN 0      0         127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=608,fd=14))            
+udp   UNCONN 0      0      10.0.2.15%enp0s3:68        0.0.0.0:*    users:(("systemd-network",pid=599,fd=23))            
+tcp   LISTEN 0      4096            0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=851,fd=3),("systemd",pid=1,fd=93))
+tcp   LISTEN 0      2048            0.0.0.0:389       0.0.0.0:*    users:(("slapd",pid=868,fd=8))                       
+tcp   LISTEN 0      4096         127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=608,fd=17))            
+tcp   LISTEN 0      4096      127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=608,fd=15))            
+tcp   LISTEN 0      4096               [::]:22           [::]:*    users:(("sshd",pid=851,fd=4),("systemd",pid=1,fd=94))
+tcp   LISTEN 0      2048               [::]:389          [::]:*    users:(("slapd",pid=868,fd=9))                       
+
+##### INT-02 estado tras arranque #####
+2026-10-08 00:08:45
+uptime: up 0 minutes
+
+##### servicio #####
+slapd.service is not a native service, redirecting to systemd-sysv-install.
+Executing: /usr/lib/systemd/systemd-sysv-install is-enabled slapd
+enabled
+● slapd.service - LSB: OpenLDAP standalone server (Lightweight Directory Access Protocol)
+     Loaded: loaded (/etc/init.d/slapd; generated)
+    Drop-In: /usr/lib/systemd/system/slapd.service.d
+             └─slapd-remain-after-exit.conf
+     Active: active (running) since Thu 2026-10-08 00:08:53 UTC; 2s ago
+       Docs: man:systemd-sysv-generator(8)
+    Process: 846 ExecStart=/etc/init.d/slapd start (code=exited, status=0/SUCCESS)
+      Tasks: 3 (limit: 4779)
+
+##### usuarios (ldapsearch anonimo/sin claves) #####
+dn: ou=People,dc=agencia,dc=redes,dc=test
+
+dn: uid=juan.martinez,ou=People,dc=agencia,dc=redes,dc=test
+uid: juan.martinez
+cn: Juan Francisco Martinez
+sn: Martinez
+mail: juan.martinez@agencia.redes.test
+
+dn: uid=camila.richter,ou=People,dc=agencia,dc=redes,dc=test
+uid: camila.richter
+cn: Camila Richter
+sn: Richter
+mail: camila.richter@agencia.redes.test
+
+dn: uid=carlos.alburez,ou=People,dc=agencia,dc=redes,dc=test
+uid: carlos.alburez
+cn: Carlos Alburez
+sn: Alburez
+mail: carlos.alburez@agencia.redes.test
+
+dn: uid=marines.garcia,ou=People,dc=agencia,dc=redes,dc=test
+uid: marines.garcia
+cn:: TWFyaW7DqXMgR2FyY8OtYQ==
+sn:: R2FyY8OtYQ==
+mail: marines.garcia@agencia.redes.test
+
+dn: uid=kevin.villagran,ou=People,dc=agencia,dc=redes,dc=test
+uid: kevin.villagran
+cn:: S2V2aW4gVmlsbGFncsOhbg==
+sn:: VmlsbGFncsOhbg==
+mail: kevin.villagran@agencia.redes.test
+
+dn: uid=ernesto.ascencio,ou=People,dc=agencia,dc=redes,dc=test
+uid: ernesto.ascencio
+cn: Ernesto Ascencio
+sn: Ascencio
+mail: ernesto.ascencio@agencia.redes.test
+
+
+##### INT-04 log #####
+Oct 08 00:02:46 ldap slapd[873]: conn=1057 op=62 BIND dn="uid=kevin.villagran,ou=People,dc=agencia,dc=redes,dc=test" method=128
+Oct 08 00:02:46 ldap slapd[873]: conn=1057 op=62 RESULT tag=97 err=49 qtime=0.000052 etime=0.000593 text=
+Oct 08 00:02:49 ldap slapd[873]: conn=1057 op=63 BIND dn="uid=kevin.villagran,ou=People,dc=agencia,dc=redes,dc=test" method=128
+Oct 08 00:02:49 ldap slapd[873]: conn=1057 op=63 RESULT tag=97 err=49 qtime=0.000040 etime=0.000298 text=
+Oct 08 00:03:25 ldap slapd[873]: conn=1059 fd=18 closed (connection lost)
+Oct 08 00:03:26 ldap slapd[873]: conn=1060 op=1 UNBIND
+Oct 08 00:03:26 ldap slapd[873]: conn=1060 fd=19 closed
+Oct 08 00:03:50 ldap slapd[873]: conn=1058 op=1 UNBIND
+Oct 08 00:03:50 ldap slapd[873]: conn=1058 fd=17 closed
+Oct 08 00:05:44 ldap slapd[873]: conn=1057 op=64 BIND dn="uid=kevin.villagran,ou=People,dc=agencia,dc=redes,dc=test" method=128
+Oct 08 00:05:44 ldap slapd[873]: conn=1057 op=64 RESULT tag=97 err=49 qtime=0.000035 etime=0.000375 text=
+Oct 08 00:05:44 ldap slapd[873]: conn=1061 fd=17 ACCEPT from IP=192.168.71.13:35218 (IP=0.0.0.0:389)
+Oct 08 00:05:44 ldap slapd[873]: conn=1061 op=0 BIND dn="" method=128
+Oct 08 00:05:44 ldap slapd[873]: conn=1061 op=0 RESULT tag=97 err=0 qtime=0.000012 etime=0.000052 text=
+Oct 08 00:06:44 ldap slapd[873]: conn=1061 op=1 UNBIND
+Oct 08 00:06:44 ldap slapd[873]: conn=1061 fd=17 closed
+Oct 08 00:07:33 ldap slapd[873]: conn=1057 op=65 UNBIND
+Oct 08 00:07:33 ldap slapd[873]: conn=1057 fd=12 closed
+Oct 08 00:08:41 ldap slapd[873]: conn=1062 fd=12 ACCEPT from IP=127.0.0.1:46708 (IP=0.0.0.0:389)
+Oct 08 00:08:41 ldap slapd[873]: conn=1062 op=0 BIND dn="" method=128
+Oct 08 00:08:41 ldap slapd[873]: conn=1062 op=0 RESULT tag=97 err=0 qtime=0.000008 etime=0.000071 text=
+Oct 08 00:08:41 ldap slapd[873]: conn=1062 op=1 SRCH base="ou=People,dc=agencia,dc=redes,dc=test" scope=2 deref=0 filter="(objectClass=*)"
+Oct 08 00:08:41 ldap slapd[873]: conn=1062 op=1 SRCH attr=uid cn sn mail
+Oct 08 00:08:41 ldap slapd[873]: conn=1062 op=1 SEARCH RESULT tag=101 err=0 qtime=0.000003 etime=0.000178 nentries=7 text=
+Oct 08 00:08:41 ldap slapd[873]: conn=1062 op=2 UNBIND
+Oct 08 00:08:41 ldap slapd[873]: conn=1062 fd=12 closed
+Oct 08 00:08:49 ldap systemd[1]: Stopping slapd.service - LSB: OpenLDAP standalone server (Lightweight Directory Access Protocol)...
+Oct 08 00:08:50 ldap slapd[2962]:  * Stopping OpenLDAP slapd
+Oct 08 00:08:50 ldap slapd[873]: daemon: shutdown requested and initiated.
+Oct 08 00:08:50 ldap slapd[873]: conn=1027 fd=15 closed (slapd shutdown)
+Oct 08 00:08:50 ldap slapd[873]: conn=1053 fd=16 closed (slapd shutdown)
+Oct 08 00:08:50 ldap slapd[873]: slapd shutdown: waiting for 0 operations/tasks to finish
+Oct 08 00:08:50 ldap slapd[873]: slapd stopped.
+Oct 08 00:08:50 ldap slapd[2962]:    ...done.
+Oct 08 00:08:50 ldap systemd[1]: slapd.service: Deactivated successfully.
+Oct 08 00:08:50 ldap systemd[1]: Stopped slapd.service - LSB: OpenLDAP standalone server (Lightweight Directory Access Protocol).
+-- Boot 812b81bb82a54ae99800d562433ec4da --
+Oct 08 00:08:53 ldap systemd[1]: Starting slapd.service - LSB: OpenLDAP standalone server (Lightweight Directory Access Protocol)...
+Oct 08 00:08:53 ldap slapd[846]:  * Starting OpenLDAP slapd
+Oct 08 00:08:53 ldap slapd[862]: @(#) $OpenLDAP: slapd 2.6.10+dfsg-0ubuntu0.24.04.1 (Sep 23 2025 16:26:39) $
+                                         Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Oct 08 00:08:53 ldap slapd[868]: slapd starting
+Oct 08 00:08:53 ldap slapd[846]:    ...done.
+Oct 08 00:08:53 ldap systemd[1]: Started slapd.service - LSB: OpenLDAP standalone server (Lightweight Directory Access Protocol).
+Oct 08 00:08:56 ldap slapd[868]: conn=1000 fd=12 ACCEPT from IP=127.0.0.1:34452 (IP=0.0.0.0:389)
+Oct 08 00:08:56 ldap slapd[868]: conn=1000 op=0 BIND dn="" method=128
+Oct 08 00:08:56 ldap slapd[868]: conn=1000 op=0 RESULT tag=97 err=0 qtime=0.000010 etime=0.000126 text=
+Oct 08 00:08:56 ldap slapd[868]: conn=1000 op=1 SRCH base="ou=People,dc=agencia,dc=redes,dc=test" scope=2 deref=0 filter="(objectClass=*)"
+Oct 08 00:08:56 ldap slapd[868]: conn=1000 op=1 SRCH attr=uid cn sn mail
+Oct 08 00:08:56 ldap slapd[868]: conn=1000 op=1 SEARCH RESULT tag=101 err=0 qtime=0.000026 etime=0.000286 nentries=7 text=
+Oct 08 00:08:56 ldap slapd[868]: conn=1000 op=2 UNBIND
+Oct 08 00:08:56 ldap slapd[868]: conn=1000 fd=12 closed
+LDIF guardado: usuarios-20261008.ldif (mandalo tambien)

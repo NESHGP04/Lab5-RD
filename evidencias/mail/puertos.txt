@@ -1,0 +1,12 @@
+Netid State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess                                                                                                                   
+udp   UNCONN 0      0         127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=558,fd=16))                                                                                
+udp   UNCONN 0      0      127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=558,fd=14))                                                                                
+tcp   LISTEN 0      4096         0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=1270,fd=3),("systemd",pid=1,fd=145))                                                                  
+tcp   LISTEN 0      100          0.0.0.0:25        0.0.0.0:*    users:(("master",pid=1110,fd=13))                                                                                        
+tcp   LISTEN 0      100          0.0.0.0:143       0.0.0.0:*    users:(("imap-login",pid=3116,fd=7),("imap-login",pid=3113,fd=7),("imap-login",pid=3112,fd=7),("dovecot",pid=2830,fd=36))
+tcp   LISTEN 0      4096   127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=558,fd=15))                                                                                
+tcp   LISTEN 0      4096      127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=558,fd=17))                                                                                
+tcp   LISTEN 0      100          0.0.0.0:993       0.0.0.0:*    users:(("imap-login",pid=3116,fd=9),("imap-login",pid=3113,fd=9),("imap-login",pid=3112,fd=9),("dovecot",pid=2830,fd=38))
+tcp   LISTEN 0      4096            [::]:22           [::]:*    users:(("sshd",pid=1270,fd=4),("systemd",pid=1,fd=146))                                                                  
+tcp   LISTEN 0      100             [::]:143          [::]:*    users:(("imap-login",pid=3116,fd=8),("imap-login",pid=3113,fd=8),("imap-login",pid=3112,fd=8),("dovecot",pid=2830,fd=37))
+tcp   LISTEN 0      100             [::]:993          [::]:*    users:(("imap-login",pid=3116,fd=10),("imap-login",pid=3113,fd=10),("imap-login",pid=3112,fd=10),("dovecot",pid=2830,fd=39))

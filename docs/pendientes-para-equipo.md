@@ -25,7 +25,8 @@ Dominio del grupo: **agencia.redes.test** (Concesionaria de vehículos). Entrega
 
 ## Ernesto (Matriz de pruebas)
 - [ ] Las filas DNS-01..05, WEB-01, MAIL-01, FTP-01 e INT-01..04 tienen comandos en `docs/pruebas-dns.md` y el script `scripts/test-dns.sh`.
-- [ ] Necesita una VM **cliente** (Thunderbird, navegador, cliente FTP) con DNS = ns1.
+- [ ] Cliente = su Mac con DNS = ns1 (Thunderbird, navegador, FTP). Matriz completa en `docs/matriz-pruebas.md`; runner `scripts/test-matriz.sh`.
+- [ ] Necesita de cada responsable: Cisco (DN + usuario/clave de prueba), Carlitos (ruta protegida), Kevin (2 buzones, puertos, TLS), Cami (usuario, directorio, rango pasivo).
 
 ## Lo que Marines necesita de los demás
 - IP final de cada VM y confirmación de que ya usan ns1 como resolver.

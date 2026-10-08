@@ -1,0 +1,135 @@
+dn: dc=agencia,dc=redes,dc=test
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: Agencia Redes Test
+dc: agencia
+structuralObjectClass: organization
+entryUUID: 9da2a4d0-56ee-1041-8d1c-9574cce04469
+creatorsName: cn=admin,dc=agencia,dc=redes,dc=test
+createTimestamp: 20261007230020Z
+entryCSN: 20261007230020.807924Z#000000#000#000000
+modifiersName: cn=admin,dc=agencia,dc=redes,dc=test
+modifyTimestamp: 20261007230020Z
+
+dn: ou=People,dc=agencia,dc=redes,dc=test
+objectClass: top
+objectClass: organizationalUnit
+ou: People
+description: Usuarios de la concesionaria
+structuralObjectClass: organizationalUnit
+entryUUID: b111b290-56ee-1041-8f3e-39679cc91c94
+creatorsName: cn=admin,dc=agencia,dc=redes,dc=test
+createTimestamp: 20261007230053Z
+entryCSN: 20261007230053.412465Z#000000#000#000000
+modifiersName: cn=admin,dc=agencia,dc=redes,dc=test
+modifyTimestamp: 20261007230053Z
+
+dn: uid=camila.richter,ou=People,dc=agencia,dc=redes,dc=test
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: camila.richter
+cn: Camila Richter
+sn: Richter
+mail: camila.richter@agencia.redes.test
+userPassword:: e1NTSEF9TTVEaG1QYjJiK3dPcWRRVFNMYjloM1ZRQXNtdmdhTEE=
+structuralObjectClass: inetOrgPerson
+entryUUID: b11ba5fc-56ee-1041-8f3f-39679cc91c94
+creatorsName: cn=admin,dc=agencia,dc=redes,dc=test
+createTimestamp: 20261007230053Z
+entryCSN: 20261007230053.477696Z#000000#000#000000
+modifiersName: cn=admin,dc=agencia,dc=redes,dc=test
+modifyTimestamp: 20261007230053Z
+
+dn: uid=carlos.alburez,ou=People,dc=agencia,dc=redes,dc=test
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: carlos.alburez
+cn: Carlos Alburez
+sn: Alburez
+mail: carlos.alburez@agencia.redes.test
+userPassword:: e1NTSEF9ZHVtSlpHc09WdVRTUlJuYUNrWlJFYU1nanR0Nmc4WTI=
+structuralObjectClass: inetOrgPerson
+entryUUID: b11d34bc-56ee-1041-8f40-39679cc91c94
+creatorsName: cn=admin,dc=agencia,dc=redes,dc=test
+createTimestamp: 20261007230053Z
+entryCSN: 20261007230053.487886Z#000000#000#000000
+modifiersName: cn=admin,dc=agencia,dc=redes,dc=test
+modifyTimestamp: 20261007230053Z
+
+dn: uid=ernesto.ascencio,ou=People,dc=agencia,dc=redes,dc=test
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: ernesto.ascencio
+cn: Ernesto Ascencio
+sn: Ascencio
+mail: ernesto.ascencio@agencia.redes.test
+userPassword:: e1NTSEF9QnhqRUg2MEh3dG9xb1hzQnhTMUxiWVlJZmk5Y2JwWXY=
+structuralObjectClass: inetOrgPerson
+entryUUID: b11e473a-56ee-1041-8f41-39679cc91c94
+creatorsName: cn=admin,dc=agencia,dc=redes,dc=test
+createTimestamp: 20261007230053Z
+entryCSN: 20261007230053.494931Z#000000#000#000000
+modifiersName: cn=admin,dc=agencia,dc=redes,dc=test
+modifyTimestamp: 20261007230053Z
+
+dn: uid=juan.martinez,ou=People,dc=agencia,dc=redes,dc=test
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: juan.martinez
+cn: Juan Francisco Martinez
+sn: Martinez
+mail: juan.martinez@agencia.redes.test
+userPassword:: e1NTSEF9S1dMMHpZa1B4bU9Zc2tyYXJjQWQwbW1BMWVuanJXVVQ=
+structuralObjectClass: inetOrgPerson
+entryUUID: b11f8280-56ee-1041-8f42-39679cc91c94
+creatorsName: cn=admin,dc=agencia,dc=redes,dc=test
+createTimestamp: 20261007230053Z
+entryCSN: 20261007230053.502998Z#000000#000#000000
+modifiersName: cn=admin,dc=agencia,dc=redes,dc=test
+modifyTimestamp: 20261007230053Z
+
+dn: uid=kevin.villagran,ou=People,dc=agencia,dc=redes,dc=test
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: kevin.villagran
+cn:: S2V2aW4gVmlsbGFncsOhbg==
+sn:: VmlsbGFncsOhbg==
+mail: kevin.villagran@agencia.redes.test
+userPassword:: e1NTSEF9VUs0bEFjSStqdElxamorZ0xaaXcwTC9LTmJXSFJXSTA=
+structuralObjectClass: inetOrgPerson
+entryUUID: b120922e-56ee-1041-8f43-39679cc91c94
+creatorsName: cn=admin,dc=agencia,dc=redes,dc=test
+createTimestamp: 20261007230053Z
+entryCSN: 20261007230053.509959Z#000000#000#000000
+modifiersName: cn=admin,dc=agencia,dc=redes,dc=test
+modifyTimestamp: 20261007230053Z
+
+dn: uid=marines.garcia,ou=People,dc=agencia,dc=redes,dc=test
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: marines.garcia
+cn:: TWFyaW7DqXMgR2FyY8OtYQ==
+sn:: R2FyY8OtYQ==
+mail: marines.garcia@agencia.redes.test
+userPassword:: e1NTSEF9ZUlyb0VGaDhYbGY4eTJOWllUUHNaa3RsN0VDTHB3TjQ=
+structuralObjectClass: inetOrgPerson
+entryUUID: b121bbd6-56ee-1041-8f44-39679cc91c94
+creatorsName: cn=admin,dc=agencia,dc=redes,dc=test
+createTimestamp: 20261007230053Z
+entryCSN: 20261007230053.517578Z#000000#000#000000
+modifiersName: cn=admin,dc=agencia,dc=redes,dc=test
+modifyTimestamp: 20261007230053Z
+

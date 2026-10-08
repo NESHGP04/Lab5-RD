@@ -1,0 +1,3 @@
+PRUEBA WEB-03 | Navegador -> http://www.agencia.redes.test/protegido/ (Basic Auth, usuario LDAP ernesto.ascencio)
+Resultado: acceso concedido al contenido protegido. HTTP 200.
+Respaldo real: WEB-03: PASS - acceso 200

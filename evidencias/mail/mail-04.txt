@@ -1,0 +1,3 @@
+PRUEBA MAIL-04 | Thunderbird, contrasena incorrecta
+Resultado: autenticacion rechazada por Dovecot.
+Respaldo real: MAIL-04: PASS - IMAP rechaza clave mala; log auth failed en evidencias/mail/

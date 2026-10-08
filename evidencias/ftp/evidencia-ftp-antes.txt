@@ -1,0 +1,123 @@
+=== FTP: ANTES DEL REINICIO ===
+ftp
+Thu Oct  8 00:11:31 UTC 2026
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+enp0s1           UP             192.168.71.14/22 fe80::c061:b8ff:fef7:b51/64 
+=== CONFIGURACION ===
+listen=YES
+listen_ipv6=NO
+pam_service_name=vsftpd
+secure_chroot_dir=/var/run/vsftpd/empty
+anonymous_enable=NO
+local_enable=YES
+write_enable=YES
+local_umask=022
+chroot_local_user=YES
+local_root=/srv/ftp/$USER
+userlist_enable=YES
+userlist_file=/etc/vsftpd.userlist
+userlist_deny=NO
+pasv_enable=YES
+pasv_min_port=40000
+pasv_max_port=40010
+pasv_address=192.168.71.14
+xferlog_enable=YES
+xferlog_std_format=NO
+log_ftp_protocol=YES
+vsftpd_log_file=/var/log/vsftpd.log
+user_sub_token=$USER
+=== USUARIO AUTORIZADO ===
+ftpuser1
+=== ESTADO DEL SERVICIO ===
+● vsftpd.service - vsftpd FTP server
+     Loaded: loaded (/usr/lib/systemd/system/vsftpd.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2026-10-07 20:20:08 UTC; 3h 51min ago
+   Main PID: 658 (vsftpd)
+      Tasks: 1 (limit: 2209)
+     Memory: 1.2M (peak: 18.5M)
+        CPU: 2.849s
+     CGroup: /system.slice/vsftpd.service
+             └─658 /usr/sbin/vsftpd /etc/vsftpd.conf
+
+Oct 07 20:20:08 ftp systemd[1]: Starting vsftpd.service - vsftpd FTP server...
+Oct 07 20:20:08 ftp systemd[1]: Started vsftpd.service - vsftpd FTP server.
+Oct 07 22:01:13 ftp vsftpd[1345]: pam_unix(vsftpd:auth): authentication failure; logname= uid=0 euid=0 tty=ftp ruser=ftpuser1 rhost=192.168.68.60  user=ftpuser1
+Oct 07 23:25:59 ftp vsftpd[1588]: pam_unix(vsftpd:auth): authentication failure; logname= uid=0 euid=0 tty=ftp ruser=ftpuser1 rhost=192.168.71.11  user=ftpuser1
+Oct 07 23:37:35 ftp vsftpd[1824]: pam_unix(vsftpd:auth): authentication failure; logname= uid=0 euid=0 tty=ftp ruser=ftpuser1 rhost=192.168.68.64  user=ftpuser1
+Oct 07 23:39:06 ftp vsftpd[1849]: pam_unix(vsftpd:auth): authentication failure; logname= uid=0 euid=0 tty=ftp ruser=ftpuser1 rhost=192.168.68.64  user=ftpuser1
+Oct 07 23:40:10 ftp vsftpd[1876]: pam_unix(vsftpd:auth): authentication failure; logname= uid=0 euid=0 tty=ftp ruser=ftpuser1 rhost=192.168.68.64  user=ftpuser1
+Oct 07 23:45:50 ftp vsftpd[1915]: pam_unix(vsftpd:auth): authentication failure; logname= uid=0 euid=0 tty=ftp ruser=ftpuser1 rhost=192.168.68.64  user=ftpuser1
+Oct 07 23:54:47 ftp vsftpd[1947]: pam_unix(vsftpd:auth): authentication failure; logname= uid=0 euid=0 tty=ftp ruser=ftpuser1 rhost=192.168.68.64  user=ftpuser1
+=== PUERTOS: INT-03 ===
+Netid State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess                                                 
+udp   UNCONN 0      0         127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=462,fd=16))              
+udp   UNCONN 0      0      127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=462,fd=14))              
+tcp   LISTEN 0      4096      127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=462,fd=17))              
+tcp   LISTEN 0      32           0.0.0.0:21        0.0.0.0:*    users:(("vsftpd",pid=658,fd=3))                        
+tcp   LISTEN 0      4096         0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=1213,fd=3),("systemd",pid=1,fd=107))
+tcp   LISTEN 0      4096   127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=462,fd=15))              
+tcp   LISTEN 0      4096            [::]:22           [::]:*    users:(("sshd",pid=1213,fd=4),("systemd",pid=1,fd=112))
+=== FIREWALL ===
+Status: inactive
+=== DIRECTORIO Y ARCHIVOS: FTP-06 ===
+dr-xr-xr-x 3 nobody   nogroup  4096 Oct  7 16:59 /srv/ftp/ftpuser1
+drwxr-xr-x 2 ftpuser1 ftpuser1 4096 Oct  7 23:56 /srv/ftp/ftpuser1/files
+total 20
+-rw-r--r-- 1 ftpuser1 ftpuser1 31 Oct  7 16:59 hola.txt
+-rw-r--r-- 1 ftpuser1 ftpuser1 24 Oct  7 21:59 prueba-ftp.txt
+-rw-r--r-- 1 ftpuser1 ftpuser1 36 Oct  7 23:54 prueba-matriz.txt
+-rw-r--r-- 1 ftpuser1 ftpuser1 44 Oct  7 23:56 pruebas_matriz.txt
+-rw-r--r-- 1 ftpuser1 ftpuser1 27 Oct  7 17:05 subida.txt
+=== LOG: INT-04 ===
+Wed Oct  7 23:56:01 2026 [pid 1974] [ftpuser1] FTP command: Client "192.168.68.64", "TYPE A"
+Wed Oct  7 23:56:01 2026 [pid 1974] [ftpuser1] FTP response: Client "192.168.68.64", "200 Switching to ASCII mode."
+Wed Oct  7 23:56:01 2026 [pid 1974] [ftpuser1] FTP command: Client "192.168.68.64", "NLST"
+Wed Oct  7 23:56:01 2026 [pid 1974] [ftpuser1] FTP response: Client "192.168.68.64", "150 Here comes the directory listing."
+Wed Oct  7 23:56:01 2026 [pid 1974] [ftpuser1] FTP response: Client "192.168.68.64", "226 Directory send OK."
+Wed Oct  7 23:56:01 2026 [pid 1974] [ftpuser1] FTP command: Client "192.168.68.64", "QUIT"
+Wed Oct  7 23:56:01 2026 [pid 1974] [ftpuser1] FTP response: Client "192.168.68.64", "221 Goodbye."
+Wed Oct  7 23:56:01 2026 [pid 1977] CONNECT: Client "192.168.68.64"
+Wed Oct  7 23:56:01 2026 [pid 1977] FTP response: Client "192.168.68.64", "220 (vsFTPd 3.0.5)"
+Wed Oct  7 23:56:01 2026 [pid 1977] FTP command: Client "192.168.68.64", "USER ftpuser1"
+Wed Oct  7 23:56:01 2026 [pid 1977] [ftpuser1] FTP response: Client "192.168.68.64", "331 Please specify the password."
+Wed Oct  7 23:56:01 2026 [pid 1977] [ftpuser1] FTP command: Client "192.168.68.64", "PASS <password>"
+Wed Oct  7 23:56:02 2026 [pid 1976] [ftpuser1] OK LOGIN: Client "192.168.68.64"
+Wed Oct  7 23:56:02 2026 [pid 1978] [ftpuser1] FTP response: Client "192.168.68.64", "230 Login successful."
+Wed Oct  7 23:56:02 2026 [pid 1978] [ftpuser1] FTP command: Client "192.168.68.64", "PWD"
+Wed Oct  7 23:56:02 2026 [pid 1978] [ftpuser1] FTP response: Client "192.168.68.64", "257 "/" is the current directory"
+Wed Oct  7 23:56:02 2026 [pid 1978] [ftpuser1] FTP command: Client "192.168.68.64", "CWD files"
+Wed Oct  7 23:56:02 2026 [pid 1978] [ftpuser1] FTP response: Client "192.168.68.64", "250 Directory successfully changed."
+Wed Oct  7 23:56:02 2026 [pid 1978] [ftpuser1] FTP command: Client "192.168.68.64", "EPSV"
+Wed Oct  7 23:56:02 2026 [pid 1978] [ftpuser1] FTP response: Client "192.168.68.64", "229 Entering Extended Passive Mode (|||40010|)"
+Wed Oct  7 23:56:02 2026 [pid 1978] [ftpuser1] FTP command: Client "192.168.68.64", "TYPE I"
+Wed Oct  7 23:56:02 2026 [pid 1978] [ftpuser1] FTP response: Client "192.168.68.64", "200 Switching to Binary mode."
+Wed Oct  7 23:56:02 2026 [pid 1978] [ftpuser1] FTP command: Client "192.168.68.64", "SIZE pruebas_matriz.txt"
+Wed Oct  7 23:56:02 2026 [pid 1978] [ftpuser1] FTP response: Client "192.168.68.64", "213 44"
+Wed Oct  7 23:56:02 2026 [pid 1978] [ftpuser1] FTP command: Client "192.168.68.64", "RETR pruebas_matriz.txt"
+Wed Oct  7 23:56:02 2026 [pid 1978] [ftpuser1] FTP response: Client "192.168.68.64", "150 Opening BINARY mode data connection for pruebas_matriz.txt (44 bytes)."
+Wed Oct  7 23:56:02 2026 [pid 1978] [ftpuser1] OK DOWNLOAD: Client "192.168.68.64", "/files/pruebas_matriz.txt", 44 bytes, 0.46Kbyte/sec
+Wed Oct  7 23:56:02 2026 [pid 1978] [ftpuser1] FTP response: Client "192.168.68.64", "226 Transfer complete."
+Wed Oct  7 23:56:02 2026 [pid 1978] [ftpuser1] FTP command: Client "192.168.68.64", "QUIT"
+Wed Oct  7 23:56:02 2026 [pid 1978] [ftpuser1] FTP response: Client "192.168.68.64", "221 Goodbye."
+Oct 07 17:00:56 ftp systemd[1]: Started vsftpd.service - vsftpd FTP server.
+Oct 07 17:02:46 ftp systemd[1]: Stopping vsftpd.service - vsftpd FTP server...
+Oct 07 17:02:46 ftp systemd[1]: vsftpd.service: Deactivated successfully.
+Oct 07 17:02:46 ftp systemd[1]: Stopped vsftpd.service - vsftpd FTP server.
+Oct 07 17:02:46 ftp systemd[1]: Starting vsftpd.service - vsftpd FTP server...
+Oct 07 17:02:46 ftp systemd[1]: Started vsftpd.service - vsftpd FTP server.
+Oct 07 20:16:53 ftp systemd[1]: Stopping vsftpd.service - vsftpd FTP server...
+Oct 07 20:16:53 ftp systemd[1]: vsftpd.service: Deactivated successfully.
+Oct 07 20:16:53 ftp systemd[1]: Stopped vsftpd.service - vsftpd FTP server.
+-- Boot d53fbff829c54ee8acb6aab2433b2f55 --
+Oct 07 20:17:04 ftp systemd[1]: Starting vsftpd.service - vsftpd FTP server...
+Oct 07 20:17:04 ftp systemd[1]: Started vsftpd.service - vsftpd FTP server.
+-- Boot 3bb33681beac4cc8b0b2a2a21ad69edd --
+Oct 07 20:20:08 ftp systemd[1]: Starting vsftpd.service - vsftpd FTP server...
+Oct 07 20:20:08 ftp systemd[1]: Started vsftpd.service - vsftpd FTP server.
+Oct 07 22:01:13 ftp vsftpd[1345]: pam_unix(vsftpd:auth): authentication failure; logname= uid=0 euid=0 tty=ftp ruser=ftpuser1 rhost=192.168.68.60  user=ftpuser1
+Oct 07 23:25:59 ftp vsftpd[1588]: pam_unix(vsftpd:auth): authentication failure; logname= uid=0 euid=0 tty=ftp ruser=ftpuser1 rhost=192.168.71.11  user=ftpuser1
+Oct 07 23:37:35 ftp vsftpd[1824]: pam_unix(vsftpd:auth): authentication failure; logname= uid=0 euid=0 tty=ftp ruser=ftpuser1 rhost=192.168.68.64  user=ftpuser1
+Oct 07 23:39:06 ftp vsftpd[1849]: pam_unix(vsftpd:auth): authentication failure; logname= uid=0 euid=0 tty=ftp ruser=ftpuser1 rhost=192.168.68.64  user=ftpuser1
+Oct 07 23:40:10 ftp vsftpd[1876]: pam_unix(vsftpd:auth): authentication failure; logname= uid=0 euid=0 tty=ftp ruser=ftpuser1 rhost=192.168.68.64  user=ftpuser1
+Oct 07 23:45:50 ftp vsftpd[1915]: pam_unix(vsftpd:auth): authentication failure; logname= uid=0 euid=0 tty=ftp ruser=ftpuser1 rhost=192.168.68.64  user=ftpuser1
+Oct 07 23:54:47 ftp vsftpd[1947]: pam_unix(vsftpd:auth): authentication failure; logname= uid=0 euid=0 tty=ftp ruser=ftpuser1 rhost=192.168.68.64  user=ftpuser1

@@ -1,0 +1,217 @@
+Evidencia mail | Thu Oct  8 12:21:53 AM UTC 2026 | Host: mail | IP: 192.168.71.13 
+
+##### INT-03 puertos (ss -lntup) #####
+Netid State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess                                                
+udp   UNCONN 0      0         127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=562,fd=16))             
+udp   UNCONN 0      0      127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=562,fd=14))             
+tcp   LISTEN 0      100          0.0.0.0:993       0.0.0.0:*    users:(("dovecot",pid=792,fd=38))                     
+tcp   LISTEN 0      4096      127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=562,fd=17))             
+tcp   LISTEN 0      4096   127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=562,fd=15))             
+tcp   LISTEN 0      4096         0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=1181,fd=3),("systemd",pid=1,fd=90))
+tcp   LISTEN 0      100          0.0.0.0:25        0.0.0.0:*    users:(("master",pid=1149,fd=13))                     
+tcp   LISTEN 0      100          0.0.0.0:143       0.0.0.0:*    users:(("dovecot",pid=792,fd=36))                     
+tcp   LISTEN 0      100             [::]:993          [::]:*    users:(("dovecot",pid=792,fd=39))                     
+tcp   LISTEN 0      4096            [::]:22           [::]:*    users:(("sshd",pid=1181,fd=4),("systemd",pid=1,fd=91))
+tcp   LISTEN 0      100             [::]:143          [::]:*    users:(("dovecot",pid=792,fd=37))                     
+
+##### INT-02 estado tras arranque #####
+2026-10-08 00:18:01
+uptime: up 3 minutes
+
+##### servicios #####
+enabled
+enabled
+● postfix.service - Postfix Mail Transport Agent
+     Active: active (exited) since Thu 2026-10-08 00:17:55 UTC; 3min 57s ago
+● dovecot.service - Dovecot IMAP/POP3 email server
+     Active: active (running) since Thu 2026-10-08 00:17:53 UTC; 3min 59s ago
+
+##### postconf -n #####
+alias_database = hash:/etc/aliases
+alias_maps = hash:/etc/aliases
+append_dot_mydomain = no
+biff = no
+compatibility_level = 3.6
+home_mailbox = Maildir/
+inet_interfaces = all
+inet_protocols = ipv4
+local_recipient_maps = proxy:unix:passwd.byname $alias_maps ldap:/etc/postfix/ldap-users.cf
+mailbox_size_limit = 0
+mailbox_transport = lmtp:unix:private/dovecot-lmtp
+mydestination = $myhostname, $mydomain, localhost
+mydomain = agencia.redes.test
+myhostname = mail.agencia.redes.test
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+myorigin = $mydomain
+readme_directory = no
+recipient_delimiter = +
+relayhost =
+smtp_tls_CApath = /etc/ssl/certs
+smtp_tls_security_level = may
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+smtpd_banner = $myhostname ESMTP $mail_name (Ubuntu)
+smtpd_recipient_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_unauth_destination
+smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_path = private/auth
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_type = dovecot
+smtpd_tls_cert_file = /etc/ssl/certs/ssl-cert-snakeoil.pem
+smtpd_tls_key_file = /etc/ssl/private/ssl-cert-snakeoil.key
+smtpd_tls_security_level = may
+
+##### doveconf -n #####
+# 2.3.21 (47349e2482): /etc/dovecot/dovecot.conf
+# Pigeonhole version 0.5.21 (f6cd4b8e)
+# OS: Linux 6.8.0-146-generic x86_64 Ubuntu 24.04.5 LTS 
+# Hostname: mail
+auth_username_format = %Ln
+disable_plaintext_auth = no
+mail_location = maildir:~/Maildir
+mail_privileged_group = mail
+namespace inbox {
+  inbox = yes
+  location = 
+  mailbox Drafts {
+    special_use = \Drafts
+  }
+  mailbox Junk {
+    special_use = \Junk
+  }
+  mailbox Sent {
+    special_use = \Sent
+  }
+  mailbox "Sent Messages" {
+    special_use = \Sent
+  }
+  mailbox Trash {
+    special_use = \Trash
+  }
+  prefix = 
+}
+passdb {
+  args = /etc/dovecot/dovecot-ldap.conf.ext
+  driver = ldap
+}
+passdb {
+  driver = pam
+}
+protocols = " imap lmtp"
+service auth {
+  unix_listener /var/spool/postfix/private/auth {
+    group = postfix
+    mode = 0660
+    user = postfix
+  }
+}
+service lmtp {
+  unix_listener /var/spool/postfix/private/dovecot-lmtp {
+    group = postfix
+    mode = 0600
+    user = postfix
+  }
+}
+ssl_cert = </etc/dovecot/private/dovecot.pem
+ssl_client_ca_dir = /etc/ssl/certs
+ssl_dh = # hidden, use -P to show it
+ssl_key = # hidden, use -P to show it
+userdb {
+  args = /etc/dovecot/dovecot-ldap.conf.ext
+  driver = ldap
+}
+userdb {
+  driver = passwd
+}
+
+##### buzones #####
+total 24
+drwx------ 3 vmail vmail 4096 Oct  7 23:33 camila.richter
+drwx------ 3 vmail vmail 4096 Oct  7 23:33 carlos.alburez
+drwx------ 3 vmail vmail 4096 Oct  7 23:31 ernesto.ascencio
+drwx------ 3 vmail vmail 4096 Oct  7 23:33 juan.martinez
+drwx------ 3 vmail vmail 4096 Oct  7 23:31 kevin.villagran
+drwx------ 3 vmail vmail 4096 Oct  7 23:33 marines.garcia
+
+##### INT-04 log #####
+Oct 08 00:01:04 mail dovecot[2832]: imap-login: Login: user=<ana>, method=PLAIN, rip=192.168.68.66, lip=192.168.71.13, mpid=3089, session=<0taG7Uhd48PAqERC>
+Oct 08 00:01:12 mail dovecot[2832]: imap-login: Login: user=<ana>, method=PLAIN, rip=192.168.68.66, lip=192.168.71.13, mpid=3091, session=</aMD7khd/PHAqERC>
+Oct 08 00:01:13 mail dovecot[2832]: imap(ana)<3089><0taG7Uhd48PAqERC>: Disconnected: Connection closed (IDLE running for 0.001 + waiting input for 6.493 secs, 2 B in + 10 B out, state=wait-input) in=188 out=1260 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:01:13 mail dovecot[2832]: imap(ana)<3091></aMD7khd/PHAqERC>: Disconnected: Connection closed (STATUS finished 0.585 secs ago) in=151 out=686 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:01:13 mail dovecot[2832]: imap(kevin.villagran)<3085><6r1L7Uhd5cPAqERC>: Disconnected: Connection closed (IDLE running for 0.001 + waiting input for 10.898 secs, 2 B in + 10 B out, state=wait-input) in=104 out=971 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:01:13 mail dovecot[2832]: imap(kevin.villagran)<3088><TEyK7Uhd9vHAqERC>: Disconnected: Connection closed (IDLE running for 0.001 + waiting input for 6.713 secs, 2 B in + 10 B out, state=wait-input) in=103 out=872 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:01:13 mail dovecot[2832]: imap(kevin.villagran)<3084><jv1I7Uhd5MPAqERC>: Disconnected: Connection closed (list finished 13.013 secs ago) in=134 out=764 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:01:15 mail dovecot[2832]: imap-login: Login: user=<kevin.villagran>, method=PLAIN, rip=192.168.68.66, lip=192.168.71.13, mpid=3096, session=<iBA37khdAPLAqERC>
+Oct 08 00:01:16 mail dovecot[2832]: imap-login: Login: user=<kevin.villagran>, method=PLAIN, rip=192.168.68.66, lip=192.168.71.13, mpid=3097, session=<v6U47khdAfLAqERC>
+Oct 08 00:01:18 mail auth[3086]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=ana rhost=192.168.68.66  user=ana
+Oct 08 00:01:19 mail dovecot[2832]: imap-login: Login: user=<kevin.villagran>, method=PLAIN, rip=192.168.68.66, lip=192.168.71.13, mpid=3099, session=<Z41s7khdCfLAqERC>
+Oct 08 00:01:27 mail auth[3086]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=ana rhost=192.168.68.66  user=ana
+Oct 08 00:01:35 mail auth[3086]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=ana rhost=192.168.68.66  user=ana
+Oct 08 00:01:39 mail auth[3086]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=ana rhost=192.168.68.66  user=ana
+Oct 08 00:01:40 mail dovecot[2832]: lmtp(3106): Connect from local
+Oct 08 00:01:40 mail dovecot[2832]: lmtp(ana)<3106><hoGhBWTdxmoiDAAAZU03Dg>: msgid=<7b5a429d-3ecc-4e3a-94aa-71f07743ce01@agencia.redes.test>: saved mail to INBOX
+Oct 08 00:01:40 mail dovecot[2832]: lmtp(3106): Disconnect from local: Logged out (state=READY)
+Oct 08 00:01:48 mail dovecot[2832]: imap-login: Disconnected: Connection closed (auth failed, 4 attempts in 30 secs): user=<ana>, method=PLAIN, rip=192.168.68.66, lip=192.168.71.13, session=<KYBk7khdAvLAqERC>
+Oct 08 00:01:48 mail auth[3086]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=ana rhost=192.168.68.66  user=ana
+Oct 08 00:01:52 mail auth[3086]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=ana rhost=192.168.68.66  user=ana
+Oct 08 00:02:00 mail dovecot[2832]: imap-login: Login: user=<ana>, method=PLAIN, rip=192.168.68.66, lip=192.168.71.13, mpid=3108, session=<xJ0h8EhdA/LAqERC>
+Oct 08 00:02:01 mail dovecot[2832]: imap-login: Login: user=<ana>, method=PLAIN, rip=192.168.68.66, lip=192.168.71.13, mpid=3110, session=<X+Pt8EhdGPLAqERC>
+Oct 08 00:02:19 mail dovecot[2832]: imap(ana)<3110><X+Pt8EhdGPLAqERC>: Disconnected: Connection closed (STATUS finished 17.222 secs ago) in=154 out=690 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:02:19 mail dovecot[2832]: imap(kevin.villagran)<3096><iBA37khdAPLAqERC>: Disconnected: Connection closed (list finished 62.972 secs ago) in=138 out=769 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:02:19 mail dovecot[2832]: imap(kevin.villagran)<3097><v6U47khdAfLAqERC>: Disconnected: Connection closed (IDLE running for 0.001 + waiting input for 0.820 secs, 2 B in + 10 B out, state=wait-input) in=154 out=1175 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:02:19 mail dovecot[2832]: imap(ana)<3108><xJ0h8EhdA/LAqERC>: Disconnected: Connection closed (IDLE running for 0.001 + waiting input for 0.730 secs, 2 B in + 10 B out, state=wait-input) in=587 out=3655 deleted=0 expunged=0 trashed=0 hdr_count=2 hdr_bytes=768 body_count=2 body_bytes=896
+Oct 08 00:02:19 mail dovecot[2832]: imap(kevin.villagran)<3099><Z41s7khdCfLAqERC>: Disconnected: Connection closed (IDLE running for 0.001 + waiting input for 0.923 secs, 2 B in + 10 B out, state=wait-input) in=850 out=2024 deleted=0 expunged=0 trashed=0 hdr_count=1 hdr_bytes=277 body_count=0 body_bytes=0
+Oct 08 00:02:23 mail auth[3086]: pam_unix(dovecot:auth): check pass; user unknown
+Oct 08 00:02:23 mail auth[3086]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=kevin.villagran rhost=192.168.68.66
+Oct 08 00:02:26 mail dovecot[2832]: imap-login: Login: user=<ana>, method=PLAIN, rip=192.168.68.66, lip=192.168.71.13, mpid=3117, session=<ouVn8khdrtDAqERC>
+Oct 08 00:02:30 mail dovecot[2832]: imap-login: Login: user=<ana>, method=PLAIN, rip=192.168.68.66, lip=192.168.71.13, mpid=3118, session=<N2Rs8khdr9DAqERC>
+Oct 08 00:02:32 mail auth[3086]: pam_unix(dovecot:auth): check pass; user unknown
+Oct 08 00:02:32 mail auth[3086]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=kevin.villagran rhost=192.168.68.66
+Oct 08 00:02:46 mail auth[3086]: pam_unix(dovecot:auth): check pass; user unknown
+Oct 08 00:02:46 mail auth[3086]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=kevin.villagran rhost=192.168.68.66
+Oct 08 00:02:50 mail auth[3086]: pam_unix(dovecot:auth): check pass; user unknown
+Oct 08 00:02:50 mail auth[3086]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=kevin.villagran rhost=192.168.68.66
+Oct 08 00:04:01 mail dovecot[2832]: imap-login: Disconnected: Connection closed (no auth attempts in 100 secs): user=<>, rip=192.168.68.66, lip=192.168.71.13, session=<UVQW+EhdrdDAqERC>
+Oct 08 00:04:06 mail dovecot[2832]: imap-login: Disconnected: Connection closed (no auth attempts in 100 secs): user=<>, rip=192.168.68.66, lip=192.168.71.13, session=<YwZg+EhdttDAqERC>
+Oct 08 00:04:33 mail dovecot[2832]: imap-login: Disconnected: Connection closed (auth failed, 4 attempts in 130 secs): user=<kevin.villagran>, method=PLAIN, rip=192.168.68.66, lip=192.168.71.13, session=<ZL5B8khdrNDAqERC>
+Oct 08 00:05:44 mail auth[3260]: pam_unix(dovecot:auth): check pass; user unknown
+Oct 08 00:05:44 mail auth[3260]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=kevin.villagran rhost=127.0.0.1
+Oct 08 00:05:47 mail dovecot[2832]: imap-login: Disconnected: Connection closed (auth failed, 1 attempts in 3 secs): user=<kevin.villagran>, method=PLAIN, rip=127.0.0.1, lip=127.0.0.1, secured, session=<Ono0/khdzpR/AAAB>
+Oct 08 00:10:06 mail systemd[1]: Stopping dovecot.service - Dovecot IMAP/POP3 email server...
+Oct 08 00:10:06 mail systemd[1]: postfix.service: Deactivated successfully.
+Oct 08 00:10:06 mail systemd[1]: Stopped postfix.service - Postfix Mail Transport Agent.
+Oct 08 00:10:06 mail dovecot[2830]: master: Warning: Killed with signal 15 (by pid=3353 uid=0 code=kill)
+Oct 08 00:10:06 mail dovecot[2832]: imap(ernesto.ascencio)<3079><nHMb7EhdDvPAqERA>: Disconnected: Server shutting down. in=198 out=1470 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:10:06 mail dovecot[2832]: imap(ana)<3117><ouVn8khdrtDAqERC>: Disconnected: Server shutting down. in=238 out=1048 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:10:06 mail dovecot[2832]: imap(ernesto.ascencio)<3015><u06w6UhdWPLAqERA>: Disconnected: Server shutting down. in=215 out=958 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:10:06 mail dovecot[2832]: imap(ana)<3118><N2Rs8khdr9DAqERC>: Disconnected: Server shutting down. in=254 out=1602 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:10:06 mail dovecot[2832]: imap(ernesto.ascencio)<3016><3huz6UhdWfLAqERA>: Disconnected: Server shutting down. in=302 out=1907 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:10:07 mail dovecot[2832]: log(2832): Warning: Killed with signal 15 (by pid=1 uid=0 code=kill)
+Oct 08 00:10:07 mail systemd[1]: dovecot.service: Deactivated successfully.
+Oct 08 00:10:07 mail systemd[1]: Stopped dovecot.service - Dovecot IMAP/POP3 email server.
+Oct 08 00:10:07 mail systemd[1]: dovecot.service: Consumed 24.888s CPU time.
+-- Boot 661de773a9e442bb921aaaeb2e4eb6a0 --
+Oct 08 00:10:17 mail systemd[1]: Starting dovecot.service - Dovecot IMAP/POP3 email server...
+Oct 08 00:10:17 mail dovecot[754]: master: Dovecot v2.3.21 (47349e2482) starting up for imap, lmtp (core dumps disabled)
+Oct 08 00:10:17 mail systemd[1]: Started dovecot.service - Dovecot IMAP/POP3 email server.
+Oct 08 00:10:20 mail systemd[1]: Starting postfix.service - Postfix Mail Transport Agent...
+Oct 08 00:10:20 mail systemd[1]: Finished postfix.service - Postfix Mail Transport Agent.
+Oct 08 00:12:23 mail dovecot[774]: imap-login: Login: user=<ana>, method=PLAIN, rip=192.168.68.66, lip=192.168.71.13, mpid=1288, session=<cFv5FUldVcnAqERC>
+Oct 08 00:13:23 mail dovecot[754]: master: Warning: Time moved forwards by 0.742453 seconds - adjusting timeouts.
+Oct 08 00:13:24 mail dovecot[754]: master: Warning: Time moved forwards by 0.738187 seconds - adjusting timeouts.
+Oct 08 00:13:24 mail dovecot[754]: master: Warning: Time moved forwards by 0.292364 seconds - adjusting timeouts.
+Oct 08 00:14:24 mail dovecot[754]: master: Warning: Time moved forwards by 0.128379 seconds - adjusting timeouts.
+Oct 08 00:15:24 mail dovecot[754]: master: Warning: Time moved forwards by 0.250023 seconds - adjusting timeouts.
+Oct 08 00:17:49 mail systemd[1]: Stopping dovecot.service - Dovecot IMAP/POP3 email server...
+Oct 08 00:17:49 mail systemd[1]: postfix.service: Deactivated successfully.
+Oct 08 00:17:49 mail systemd[1]: Stopped postfix.service - Postfix Mail Transport Agent.
+Oct 08 00:17:49 mail dovecot[754]: master: Warning: Killed with signal 15 (by pid=1399 uid=0 code=kill)
+Oct 08 00:17:49 mail dovecot[774]: imap(ana)<1288><cFv5FUldVcnAqERC>: Disconnected: Server shutting down. in=204 out=1400 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:17:50 mail systemd[1]: dovecot.service: Deactivated successfully.
+Oct 08 00:17:50 mail systemd[1]: Stopped dovecot.service - Dovecot IMAP/POP3 email server.
+-- Boot 5cd237683ba64be3b637965b24b85c70 --
+Oct 08 00:17:53 mail systemd[1]: Starting dovecot.service - Dovecot IMAP/POP3 email server...
+Oct 08 00:17:53 mail dovecot[792]: master: Dovecot v2.3.21 (47349e2482) starting up for imap, lmtp (core dumps disabled)
+Oct 08 00:17:53 mail systemd[1]: Started dovecot.service - Dovecot IMAP/POP3 email server.
+Oct 08 00:17:55 mail systemd[1]: Starting postfix.service - Postfix Mail Transport Agent...
+Oct 08 00:17:55 mail systemd[1]: Finished postfix.service - Postfix Mail Transport Agent.
+Oct 08 00:19:23 mail dovecot[831]: imap-login: Login: user=<ernesto.ascencio>, method=PLAIN, rip=192.168.68.64, lip=192.168.71.13, mpid=1315, session=<uWcPL0ldkMXAqERA>

@@ -1,0 +1,37 @@
+=== FTP: DESPUES DEL REINICIO ===
+ftp
+Thu Oct  8 00:12:32 UTC 2026
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+enp0s1           UP             192.168.71.14/22 fe80::c061:b8ff:fef7:b51/64 
+=== DNS ===
+192.168.71.14
+=== ESTADO DEL SERVICIO: INT-02 ===
+● vsftpd.service - vsftpd FTP server
+     Loaded: loaded (/usr/lib/systemd/system/vsftpd.service; enabled; preset: enabled)
+     Active: active (running) since Thu 2026-10-08 00:12:05 UTC; 27s ago
+    Process: 651 ExecStartPre=/bin/mkdir -p /var/run/vsftpd/empty (code=exited, status=0/SUCCESS)
+   Main PID: 664 (vsftpd)
+      Tasks: 1 (limit: 2209)
+     Memory: 944.0K (peak: 1.2M)
+        CPU: 4ms
+     CGroup: /system.slice/vsftpd.service
+             └─664 /usr/sbin/vsftpd /etc/vsftpd.conf
+
+Oct 08 00:12:05 ftp systemd[1]: Starting vsftpd.service - vsftpd FTP server...
+Oct 08 00:12:05 ftp systemd[1]: Started vsftpd.service - vsftpd FTP server.
+=== PUERTOS: INT-03 ===
+Netid State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess                                               
+udp   UNCONN 0      0         127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=477,fd=16))            
+udp   UNCONN 0      0      127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=477,fd=14))            
+tcp   LISTEN 0      4096   127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=477,fd=15))            
+tcp   LISTEN 0      4096      127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=477,fd=17))            
+tcp   LISTEN 0      4096         0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=785,fd=3),("systemd",pid=1,fd=93))
+tcp   LISTEN 0      32           0.0.0.0:21        0.0.0.0:*    users:(("vsftpd",pid=664,fd=3))                      
+tcp   LISTEN 0      4096            [::]:22           [::]:*    users:(("sshd",pid=785,fd=4),("systemd",pid=1,fd=94))
+=== ARCHIVOS CONSERVADOS ===
+total 20
+-rw-r--r-- 1 ftpuser1 ftpuser1 31 Oct  7 16:59 hola.txt
+-rw-r--r-- 1 ftpuser1 ftpuser1 24 Oct  7 21:59 prueba-ftp.txt
+-rw-r--r-- 1 ftpuser1 ftpuser1 36 Oct  7 23:54 prueba-matriz.txt
+-rw-r--r-- 1 ftpuser1 ftpuser1 44 Oct  7 23:56 pruebas_matriz.txt
+-rw-r--r-- 1 ftpuser1 ftpuser1 27 Oct  7 17:05 subida.txt

@@ -1,0 +1,20 @@
+server_host = ldap://ldap.agencia.redes.test
+version = 3
+search_base = ou=People,dc=agencia,dc=redes,dc=test
+query_filter = (mail=%s)
+result_attribute = mail
+uris = ldap://ldap.agencia.redes.test
+ldap_version = 3
+base = ou=People,dc=agencia,dc=redes,dc=test
+auth_bind = yes
+auth_bind_userdn = uid=%n,ou=People,dc=agencia,dc=redes,dc=test
+user_filter = (uid=%n)
+pass_filter = (uid=%n)
+user_attrs = =uid=vmail, =gid=vmail, =home=/var/mail/vhosts/%n
+service lmtp {
+  unix_listener /var/spool/postfix/private/dovecot-lmtp {
+    mode = 0600
+    user = postfix
+    group = postfix
+  }
+}

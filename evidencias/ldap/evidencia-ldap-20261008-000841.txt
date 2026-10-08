@@ -1,0 +1,123 @@
+Evidencia ldap | Thu Oct  8 12:08:41 AM UTC 2026 | Host: ldap | IP: 10.0.2.15 192.168.56.10 192.168.71.11 fd17:625c:f037:2:a00:27ff:fef8:63b5 
+
+##### INT-03 puertos (ss -lntup) #####
+Netid State  Recv-Q Send-Q    Local Address:Port Peer Address:PortProcess                                                
+udp   UNCONN 0      0            127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=616,fd=16))             
+udp   UNCONN 0      0         127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=616,fd=14))             
+udp   UNCONN 0      0      10.0.2.15%enp0s3:68        0.0.0.0:*    users:(("systemd-network",pid=598,fd=27))             
+tcp   LISTEN 0      4096         127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=616,fd=17))             
+tcp   LISTEN 0      4096            0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=859,fd=3),("systemd",pid=1,fd=118))
+tcp   LISTEN 0      2048            0.0.0.0:389       0.0.0.0:*    users:(("slapd",pid=873,fd=8))                        
+tcp   LISTEN 0      4096      127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=616,fd=15))             
+tcp   LISTEN 0      4096               [::]:22           [::]:*    users:(("sshd",pid=859,fd=4),("systemd",pid=1,fd=119))
+tcp   LISTEN 0      2048               [::]:389          [::]:*    users:(("slapd",pid=873,fd=9))                        
+
+##### INT-02 estado tras arranque #####
+2026-10-07 23:14:26
+uptime: up 54 minutes
+
+##### servicio #####
+slapd.service is not a native service, redirecting to systemd-sysv-install.
+Executing: /usr/lib/systemd/systemd-sysv-install is-enabled slapd
+enabled
+● slapd.service - LSB: OpenLDAP standalone server (Lightweight Directory Access Protocol)
+     Loaded: loaded (/etc/init.d/slapd; generated)
+    Drop-In: /usr/lib/systemd/system/slapd.service.d
+             └─slapd-remain-after-exit.conf
+     Active: active (running) since Wed 2026-10-07 23:13:45 UTC; 54min ago
+       Docs: man:systemd-sysv-generator(8)
+      Tasks: 4 (limit: 4779)
+     Memory: 10.3M (peak: 10.8M)
+
+##### usuarios (ldapsearch anonimo/sin claves) #####
+dn: ou=People,dc=agencia,dc=redes,dc=test
+
+dn: uid=juan.martinez,ou=People,dc=agencia,dc=redes,dc=test
+uid: juan.martinez
+cn: Juan Francisco Martinez
+sn: Martinez
+mail: juan.martinez@agencia.redes.test
+
+dn: uid=camila.richter,ou=People,dc=agencia,dc=redes,dc=test
+uid: camila.richter
+cn: Camila Richter
+sn: Richter
+mail: camila.richter@agencia.redes.test
+
+dn: uid=carlos.alburez,ou=People,dc=agencia,dc=redes,dc=test
+uid: carlos.alburez
+cn: Carlos Alburez
+sn: Alburez
+mail: carlos.alburez@agencia.redes.test
+
+dn: uid=marines.garcia,ou=People,dc=agencia,dc=redes,dc=test
+uid: marines.garcia
+cn:: TWFyaW7DqXMgR2FyY8OtYQ==
+sn:: R2FyY8OtYQ==
+mail: marines.garcia@agencia.redes.test
+
+dn: uid=kevin.villagran,ou=People,dc=agencia,dc=redes,dc=test
+uid: kevin.villagran
+cn:: S2V2aW4gVmlsbGFncsOhbg==
+sn:: VmlsbGFncsOhbg==
+mail: kevin.villagran@agencia.redes.test
+
+dn: uid=ernesto.ascencio,ou=People,dc=agencia,dc=redes,dc=test
+uid: ernesto.ascencio
+cn: Ernesto Ascencio
+sn: Ascencio
+mail: ernesto.ascencio@agencia.redes.test
+
+
+##### INT-04 log #####
+Oct 08 00:01:59 ldap slapd[873]: conn=1057 op=50 SRCH base="ou=People,dc=agencia,dc=redes,dc=test" scope=2 deref=0 filter="(uid=ana)"
+Oct 08 00:01:59 ldap slapd[873]: conn=1057 op=50 SEARCH RESULT tag=101 err=0 qtime=0.000013 etime=0.000154 nentries=0 text=
+Oct 08 00:02:01 ldap slapd[873]: conn=1057 op=51 BIND dn="uid=ana,ou=People,dc=agencia,dc=redes,dc=test" method=128
+Oct 08 00:02:01 ldap slapd[873]: conn=1057 op=51 RESULT tag=97 err=49 qtime=0.000033 etime=0.000282 text=
+Oct 08 00:02:01 ldap slapd[873]: conn=1057 op=52 BIND dn="" method=128
+Oct 08 00:02:01 ldap slapd[873]: conn=1057 op=52 RESULT tag=97 err=0 qtime=0.000040 etime=0.000202 text=
+Oct 08 00:02:01 ldap slapd[873]: conn=1057 op=53 SRCH base="ou=People,dc=agencia,dc=redes,dc=test" scope=2 deref=0 filter="(uid=ana)"
+Oct 08 00:02:01 ldap slapd[873]: conn=1057 op=53 SEARCH RESULT tag=101 err=0 qtime=0.000029 etime=0.000223 nentries=0 text=
+Oct 08 00:02:23 ldap slapd[873]: conn=1057 op=54 BIND dn="uid=kevin.villagran,ou=People,dc=agencia,dc=redes,dc=test" method=128
+Oct 08 00:02:23 ldap slapd[873]: conn=1057 op=54 RESULT tag=97 err=49 qtime=0.000057 etime=0.000446 text=
+Oct 08 00:02:26 ldap slapd[873]: conn=1057 op=55 BIND dn="uid=ana,ou=People,dc=agencia,dc=redes,dc=test" method=128
+Oct 08 00:02:26 ldap slapd[873]: conn=1057 op=55 RESULT tag=97 err=49 qtime=0.000056 etime=0.000376 text=
+Oct 08 00:02:26 ldap slapd[873]: conn=1057 op=56 BIND dn="" method=128
+Oct 08 00:02:26 ldap slapd[873]: conn=1057 op=56 RESULT tag=97 err=0 qtime=0.000044 etime=0.000189 text=
+Oct 08 00:02:26 ldap slapd[873]: conn=1057 op=57 SRCH base="ou=People,dc=agencia,dc=redes,dc=test" scope=2 deref=0 filter="(uid=ana)"
+Oct 08 00:02:26 ldap slapd[873]: conn=1057 op=57 SEARCH RESULT tag=101 err=0 qtime=0.000021 etime=0.000228 nentries=0 text=
+Oct 08 00:02:30 ldap slapd[873]: conn=1057 op=58 BIND dn="uid=ana,ou=People,dc=agencia,dc=redes,dc=test" method=128
+Oct 08 00:02:30 ldap slapd[873]: conn=1057 op=58 RESULT tag=97 err=49 qtime=0.000049 etime=0.000339 text=
+Oct 08 00:02:30 ldap slapd[873]: conn=1057 op=59 BIND dn="" method=128
+Oct 08 00:02:30 ldap slapd[873]: conn=1057 op=59 RESULT tag=97 err=0 qtime=0.000019 etime=0.000126 text=
+Oct 08 00:02:30 ldap slapd[873]: conn=1057 op=60 SRCH base="ou=People,dc=agencia,dc=redes,dc=test" scope=2 deref=0 filter="(uid=ana)"
+Oct 08 00:02:30 ldap slapd[873]: conn=1057 op=60 SEARCH RESULT tag=101 err=0 qtime=0.000008 etime=0.000126 nentries=0 text=
+Oct 08 00:02:32 ldap slapd[873]: conn=1057 op=61 BIND dn="uid=kevin.villagran,ou=People,dc=agencia,dc=redes,dc=test" method=128
+Oct 08 00:02:32 ldap slapd[873]: conn=1057 op=61 RESULT tag=97 err=49 qtime=0.000043 etime=0.000317 text=
+Oct 08 00:02:46 ldap slapd[873]: conn=1057 op=62 BIND dn="uid=kevin.villagran,ou=People,dc=agencia,dc=redes,dc=test" method=128
+Oct 08 00:02:46 ldap slapd[873]: conn=1057 op=62 RESULT tag=97 err=49 qtime=0.000052 etime=0.000593 text=
+Oct 08 00:02:49 ldap slapd[873]: conn=1057 op=63 BIND dn="uid=kevin.villagran,ou=People,dc=agencia,dc=redes,dc=test" method=128
+Oct 08 00:02:49 ldap slapd[873]: conn=1057 op=63 RESULT tag=97 err=49 qtime=0.000040 etime=0.000298 text=
+Oct 08 00:03:25 ldap slapd[873]: conn=1059 fd=18 closed (connection lost)
+Oct 08 00:03:26 ldap slapd[873]: conn=1060 op=1 UNBIND
+Oct 08 00:03:26 ldap slapd[873]: conn=1060 fd=19 closed
+Oct 08 00:03:50 ldap slapd[873]: conn=1058 op=1 UNBIND
+Oct 08 00:03:50 ldap slapd[873]: conn=1058 fd=17 closed
+Oct 08 00:05:44 ldap slapd[873]: conn=1057 op=64 BIND dn="uid=kevin.villagran,ou=People,dc=agencia,dc=redes,dc=test" method=128
+Oct 08 00:05:44 ldap slapd[873]: conn=1057 op=64 RESULT tag=97 err=49 qtime=0.000035 etime=0.000375 text=
+Oct 08 00:05:44 ldap slapd[873]: conn=1061 fd=17 ACCEPT from IP=192.168.71.13:35218 (IP=0.0.0.0:389)
+Oct 08 00:05:44 ldap slapd[873]: conn=1061 op=0 BIND dn="" method=128
+Oct 08 00:05:44 ldap slapd[873]: conn=1061 op=0 RESULT tag=97 err=0 qtime=0.000012 etime=0.000052 text=
+Oct 08 00:06:44 ldap slapd[873]: conn=1061 op=1 UNBIND
+Oct 08 00:06:44 ldap slapd[873]: conn=1061 fd=17 closed
+Oct 08 00:07:33 ldap slapd[873]: conn=1057 op=65 UNBIND
+Oct 08 00:07:33 ldap slapd[873]: conn=1057 fd=12 closed
+Oct 08 00:08:41 ldap slapd[873]: conn=1062 fd=12 ACCEPT from IP=127.0.0.1:46708 (IP=0.0.0.0:389)
+Oct 08 00:08:41 ldap slapd[873]: conn=1062 op=0 BIND dn="" method=128
+Oct 08 00:08:41 ldap slapd[873]: conn=1062 op=0 RESULT tag=97 err=0 qtime=0.000008 etime=0.000071 text=
+Oct 08 00:08:41 ldap slapd[873]: conn=1062 op=1 SRCH base="ou=People,dc=agencia,dc=redes,dc=test" scope=2 deref=0 filter="(objectClass=*)"
+Oct 08 00:08:41 ldap slapd[873]: conn=1062 op=1 SRCH attr=uid cn sn mail
+Oct 08 00:08:41 ldap slapd[873]: conn=1062 op=1 SEARCH RESULT tag=101 err=0 qtime=0.000003 etime=0.000178 nentries=7 text=
+Oct 08 00:08:41 ldap slapd[873]: conn=1062 op=2 UNBIND
+Oct 08 00:08:41 ldap slapd[873]: conn=1062 fd=12 closed
+LDIF guardado: usuarios-20261008.ldif (mandalo tambien)

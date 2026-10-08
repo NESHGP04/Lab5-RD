@@ -78,6 +78,10 @@
 - Con esto quedan ✅ todas las pruebas DNS asignadas a Marines (DNS-01..05, WEB-01, MAIL-01, FTP-01, INT-01..04).
 - Recordatorio: restaurar el DNS de la Mac al terminar (`sudo networksetup -setdnsservers Wi-Fi Empty`).
 
+**11. Matriz de pruebas completa (2026-10-06, Ernesto)**
+- `docs/matriz-pruebas.md`: las 33 filas del Ejercicio 6 (DNS, LDAP, WEB, MAIL, FTP, INT). Las de DNS ya ✅; el resto ⬜ hasta que cada VM esté arriba.
+- `scripts/test-matriz.sh`: corre desde la Mac con DNS = ns1; claves por variables de entorno; sin credenciales hace SKIP de LDAP/WEB/MAIL/FTP.
+
 **Pendiente / bloqueos**
 - ~~Decisión de red~~ → Bridged. Falta que el equipo confirme red Wi-Fi común y sus IPs (bloque 192.168.71.x propuesto).
 - Falta zona inversa (PTR): opcional; evaluar si Kevin la necesita para el correo.

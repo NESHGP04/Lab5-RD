@@ -1,0 +1,163 @@
+RESUMEN DE EVIDENCIAS POR PRUEBA | Lab 5 CC3067 | agencia.redes.test
+Generado: Wed Oct  7 19:56:00 CST 2026 | Solo extractos literales de los archivos citados; nada editado.
+
+=== DNS-01 | fuente: matriz/matriz-20261007-183236.txt
+DNS-01: PASS - ns1 -> 192.168.71.10
+
+=== DNS-02 | fuente: matriz/matriz-20261007-183236.txt
+DNS-02: PASS - ldap .11, www .12, mail .13, ftp .14
+
+=== DNS-03 | fuente: matriz/matriz-20261007-183236.txt
+DNS-03: PASS - SOA con flag aa
+
+=== DNS-04 | fuente: matriz/matriz-20261007-183236.txt
+DNS-04: PASS - MX 10 mail.agencia.redes.test.
+
+=== DNS-05 | fuente: matriz/matriz-20261007-183236.txt
+DNS-05: PASS - NXDOMAIN
+
+=== WEB-01 | fuente: matriz/matriz-20261007-183236.txt
+WEB-01: PASS - www -> .12
+
+=== MAIL-01 | fuente: matriz/matriz-20261007-183236.txt
+MAIL-01: PASS - mail -> .13 + MX
+
+=== FTP-01 | fuente: matriz/matriz-20261007-183236.txt
+FTP-01: PASS - ftp -> .14
+
+=== LDAP-01 | fuente: matriz/matriz-20261007-183236.txt
+LDAP-01: PASS - 6 usuarios (comparar con #integrantes = 6)
+
+=== LDAP-02 | fuente: matriz/matriz-20261007-183236.txt
+LDAP-02: PASS - bind valido aceptado
+
+=== LDAP-03 | fuente: matriz/matriz-20261007-183236.txt
+LDAP-03: PASS - Invalid credentials (49)
+
+=== LDAP-04 | fuente: matriz/matriz-20261007-183236.txt
+LDAP-04: PASS - uid, cn, sn, mail (@agencia.redes.test)
+
+=== WEB-02 | fuente: matriz/matriz-20261007-183236.txt
+WEB-02: PASS - pagina principal 200
+
+=== WEB-03 | fuente: matriz/matriz-20261007-183236.txt
+WEB-03: PASS - acceso 200
+
+=== WEB-04 | fuente: matriz/matriz-20261007-183236.txt
+WEB-04: PASS - 401 en ambos
+
+=== MAIL-03 | fuente: matriz/matriz-20261007-183236.txt
+MAIL-03: PASS - IMAP login valido
+
+=== MAIL-04 | fuente: matriz/matriz-20261007-183236.txt
+MAIL-04: PASS - IMAP rechaza clave mala
+
+=== MAIL-05 | fuente: matriz/matriz-20261007-183236.txt
+MAIL-05: PASS - SMTP acepto: Prueba MAIL-05 183242
+
+=== MAIL-06 | fuente: matriz/matriz-20261007-183236.txt
+MAIL-06: PASS - mensaje en INBOX de kevin.villagran
+
+=== MAIL-07 | fuente: matriz/matriz-20261007-183236.txt
+MAIL-07: PASS - destinatario inexistente rechazado
+
+=== FTP-02 | fuente: matriz/matriz-20261007-183236.txt
+FTP-02: PASS - login valido
+
+=== FTP-03 | fuente: matriz/matriz-20261007-183236.txt
+FTP-03: PASS - rechaza clave mala
+
+=== FTP-04 | fuente: matriz/matriz-20261007-183236.txt
+FTP-04: PASS - rechaza anonimo
+
+=== FTP-05 | fuente: matriz/matriz-20261007-183236.txt
+FTP-05: PASS - listado OK
+
+=== FTP-06 | fuente: matriz/matriz-20261007-183236.txt
+FTP-06: PASS - carga OK
+
+=== FTP-07 | fuente: matriz/matriz-20261007-183236.txt
+FTP-07: PASS - descarga identica (shasum)
+
+=== FTP-08 | fuente: matriz/matriz-20261007-183236.txt
+FTP-08: PASS - no sale del directorio autorizado
+
+=== INT-01 | fuente: matriz/matriz-20261007-183236.txt
+INT-01: PASS - sin entradas en /etc/hosts; todo por FQDN
+
+=== WEB-04 y WEB-05 | fuente: web/web-04-...jpeg y web/web-05-...jpeg (capturas del error.log) y web/evidencia-www-20261008-001034.txt
+</VirtualHost>
+
+##### carpeta protegida #####
+total 8
+-rw-r--r-- 1 admincarlitos admincarlitos 4017 Oct  7 23:31 index.html
+drwxr-xr-x 2 root          root          4096 Oct  7 23:32 protegido
+
+##### INT-04 access.log #####
+
+##### INT-04 error.log #####
+[Thu Oct 08 00:09:53.867811 2026] [mpm_event:notice] [pid 799:tid 259262448238624] AH00489: Apache/2.4.58 (Ubuntu) configured -- resuming normal operations
+[Thu Oct 08 00:09:53.867842 2026] [core:notice] [pid 799:tid 259262448238624] AH00094: Command line: '/usr/sbin/apache2'
+
+=== INT-02 | fuente: archivos *-despues (tras reinicio) y matriz/matriz-20261007-183236.txt
+--- ldap
+##### INT-02 estado tras arranque #####
+2026-10-08 00:08:45
+uptime: up 0 minutes
+
+--- web
+##### INT-02 estado tras arranque #####
+2026-10-08 00:09:50
+uptime: up 0 minutes
+
+--- mail
+##### INT-02 estado tras arranque #####
+2026-10-08 00:51:58
+uptime: up 4 minutes
+
+--- ftp
+=== ESTADO DEL SERVICIO: INT-02 ===
+● vsftpd.service - vsftpd FTP server
+     Loaded: loaded (/usr/lib/systemd/system/vsftpd.service; enabled; preset: enabled)
+     Active: active (running) since Thu 2026-10-08 00:12:05 UTC; 27s ago
+    Process: 651 ExecStartPre=/bin/mkdir -p /var/run/vsftpd/empty (code=exited, status=0/SUCCESS)
+   Main PID: 664 (vsftpd)
+      Tasks: 1 (limit: 2209)
+     Memory: 944.0K (peak: 1.2M)
+
+=== INT-03 | puertos (ss -lntup) por servidor
+--- ldap
+Netid State  Recv-Q Send-Q    Local Address:Port Peer Address:PortProcess                                               
+tcp   LISTEN 0      4096            0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=851,fd=3),("systemd",pid=1,fd=93))
+tcp   LISTEN 0      2048            0.0.0.0:389       0.0.0.0:*    users:(("slapd",pid=868,fd=8))                       
+tcp   LISTEN 0      4096         127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=608,fd=17))            
+tcp   LISTEN 0      4096      127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=608,fd=15))            
+tcp   LISTEN 0      4096               [::]:22           [::]:*    users:(("sshd",pid=851,fd=4),("systemd",pid=1,fd=94))
+tcp   LISTEN 0      2048               [::]:389          [::]:*    users:(("slapd",pid=868,fd=9))                       
+--- web
+Netid State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess                                                                            
+tcp   LISTEN 0      4096         0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=1011,fd=3),("systemd",pid=1,fd=92))                            
+tcp   LISTEN 0      4096      127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=471,fd=17))                                         
+tcp   LISTEN 0      4096   127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=471,fd=15))                                         
+tcp   LISTEN 0      511                *:80              *:*    users:(("apache2",pid=801,fd=4),("apache2",pid=800,fd=4),("apache2",pid=799,fd=4))
+tcp   LISTEN 0      4096            [::]:22           [::]:*    users:(("sshd",pid=1011,fd=4),("systemd",pid=1,fd=93))                            
+--- mail
+Netid State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess                                                   
+tcp   LISTEN 0      4096   127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=550,fd=15))                
+tcp   LISTEN 0      100          0.0.0.0:143       0.0.0.0:*    users:(("dovecot",pid=745,fd=36))                        
+tcp   LISTEN 0      4096      127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=550,fd=17))                
+tcp   LISTEN 0      100          0.0.0.0:25        0.0.0.0:*    users:(("smtpd",pid=1479,fd=6),("master",pid=1123,fd=13))
+tcp   LISTEN 0      4096         0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=1143,fd=3),("systemd",pid=1,fd=93))   
+tcp   LISTEN 0      100          0.0.0.0:993       0.0.0.0:*    users:(("dovecot",pid=745,fd=38))                        
+tcp   LISTEN 0      100             [::]:143          [::]:*    users:(("dovecot",pid=745,fd=37))                        
+tcp   LISTEN 0      4096            [::]:22           [::]:*    users:(("sshd",pid=1143,fd=4),("systemd",pid=1,fd=94))   
+tcp   LISTEN 0      100             [::]:993          [::]:*    users:(("dovecot",pid=745,fd=39))                        
+--- ftp
+Netid State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess                                               
+tcp   LISTEN 0      4096   127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=477,fd=15))            
+tcp   LISTEN 0      4096      127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=477,fd=17))            
+tcp   LISTEN 0      4096         0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=785,fd=3),("systemd",pid=1,fd=93))
+tcp   LISTEN 0      32           0.0.0.0:21        0.0.0.0:*    users:(("vsftpd",pid=664,fd=3))                      
+tcp   LISTEN 0      4096            [::]:22           [::]:*    users:(("sshd",pid=785,fd=4),("systemd",pid=1,fd=94))
+
+=== INT-04 | logs: ver sección INT-04 de cada archivo *-despues / evidencia-*.txt

@@ -1,0 +1,101 @@
+Matriz de pruebas | Wed Oct  7 18:32:36 CST 2026 | Host: Ernestos-MacBook-Pro.local | DNS: 192.168.71.10
+
+##### DNS (detalle completo: scripts/test-dns.sh) #####
+DNS-01: PASS - ns1 -> 192.168.71.10
+DNS-02: PASS - ldap .11, www .12, mail .13, ftp .14
+DNS-03: PASS - SOA con flag aa
+DNS-04: PASS - MX 10 mail.agencia.redes.test.
+DNS-05: PASS - NXDOMAIN
+WEB-01: PASS - www -> .12
+MAIL-01: PASS - mail -> .13 + MX
+FTP-01: PASS - ftp -> .14
+
+##### LDAP #####
+dn: ou=People,dc=agencia,dc=redes,dc=test
+
+dn: uid=juan.martinez,ou=People,dc=agencia,dc=redes,dc=test
+uid: juan.martinez
+
+dn: uid=camila.richter,ou=People,dc=agencia,dc=redes,dc=test
+uid: camila.richter
+
+dn: uid=carlos.alburez,ou=People,dc=agencia,dc=redes,dc=test
+uid: carlos.alburez
+
+dn: uid=marines.garcia,ou=People,dc=agencia,dc=redes,dc=test
+uid: marines.garcia
+
+dn: uid=kevin.villagran,ou=People,dc=agencia,dc=redes,dc=test
+uid: kevin.villagran
+
+dn: uid=ernesto.ascencio,ou=People,dc=agencia,dc=redes,dc=test
+uid: ernesto.ascencio
+
+LDAP-01: PASS - 6 usuarios (comparar con #integrantes = 6)
+dn:uid=ernesto.ascencio,ou=People,dc=agencia,dc=redes,dc=test
+LDAP-02: PASS - bind valido aceptado
+ldap_bind: Invalid credentials (49)
+LDAP-03: PASS - Invalid credentials (49)
+dn: uid=ernesto.ascencio,ou=People,dc=agencia,dc=redes,dc=test
+uid: ernesto.ascencio
+cn: Ernesto Ascencio
+sn: Ascencio
+mail: ernesto.ascencio@agencia.redes.test
+
+LDAP-04: PASS - uid, cn, sn, mail (@agencia.redes.test)
+
+##### WEB #####
+GET / -> 200
+WEB-02: PASS - pagina principal 200
+GET /protegido/ (valido) -> 200
+WEB-03: PASS - acceso 200
+GET /protegido/ (clave mala) -> 401
+GET /protegido/ (usuario inexistente) -> 401
+WEB-04: PASS - 401 en ambos
+WEB-05: manual (parar slapd en ldap, intentar login, capturar error.log de Apache)
+
+##### CORREO #####
+* LIST (\HasNoChildren \Trash) "." Trash
+* LIST (\HasNoChildren) "." INBOX
+MAIL-03: PASS - IMAP login valido
+curl: (67) Login denied
+MAIL-04: PASS - IMAP rechaza clave mala
+MAIL-05: PASS - SMTP acepto: Prueba MAIL-05 183242
+* SEARCH 5
+MAIL-06: PASS - mensaje en INBOX de kevin.villagran
+curl: (55) RCPT failed: 550
+MAIL-07: PASS - destinatario inexistente rechazado
+MAIL-02: manual (captura de Thunderbird)
+
+##### FTP #####
+files
+FTP-02: PASS - login valido
+curl: (67) Access denied: 530
+FTP-03: PASS - rechaza clave mala
+curl: (67) Access denied: 530
+FTP-04: PASS - rechaza anonimo
+drwxr-xr-x    2 1001     1001         4096 Oct 07 23:56 files
+FTP-05: PASS - listado OK
+FTP-06: PASS - carga OK
+FTP-07: PASS - descarga identica (shasum)
+curl: (9) Server denied you to change to the given directory
+FTP-08: PASS - no sale del directorio autorizado
+
+##### INT-01 (solo FQDN, sin /etc/hosts) #####
+--- /etc/hosts
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1	localhost
+255.255.255.255	broadcasthost
+::1             localhost
+--- DNS del sistema
+  nameserver[0] : 192.168.71.10
+  nameserver[0] : 127.0.0.1
+INT-01: PASS - sin entradas en /etc/hosts; todo por FQDN
+INT-02/03/04: manual en cada servidor (ver docs/matriz-pruebas.md)
+
+RESUMEN: 28 PASS, 0 FAIL, 0 SKIP

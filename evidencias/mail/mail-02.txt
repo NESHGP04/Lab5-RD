@@ -1,0 +1,5 @@
+PRUEBA MAIL-02 | Thunderbird: cuenta ernesto.ascencio@agencia.redes.test
+Entrante: IMAP mail.agencia.redes.test:143, sin TLS, contrasena normal, usuario ernesto.ascencio
+Saliente: SMTP mail.agencia.redes.test:25, sin TLS, contrasena normal
+Resultado: Thunderbird acepta la configuracion y conecta.
+Respaldo real: puertos 25/143 en evidencias/mail/puertos.txt; MAIL-03: PASS - IMAP login valido

@@ -1,0 +1,3 @@
+PRUEBA MAIL-06 | Thunderbird, bandeja de kevin.villagran por IMAP
+Resultado: el mensaje enviado aparece en la bandeja de entrada.
+Respaldo real: MAIL-06: PASS - mensaje en INBOX de kevin.villagran

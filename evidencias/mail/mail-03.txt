@@ -1,0 +1,3 @@
+PRUEBA MAIL-03 | Thunderbird, login IMAP con credenciales LDAP validas
+Resultado: Dovecot acepta y muestra INBOX.
+Respaldo real: MAIL-03: PASS - IMAP login valido; log de Dovecot en evidencias/mail/RESUMEN-pruebas-correo.md

@@ -1,0 +1,216 @@
+Evidencia mail | Thu Oct  8 12:56:43 AM UTC 2026 | Host: mail | IP: 192.168.71.13 
+
+##### INT-03 puertos (ss -lntup) #####
+Netid State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess                                                   
+udp   UNCONN 0      0         127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=550,fd=16))                
+udp   UNCONN 0      0      127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=550,fd=14))                
+tcp   LISTEN 0      4096   127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=550,fd=15))                
+tcp   LISTEN 0      100          0.0.0.0:143       0.0.0.0:*    users:(("dovecot",pid=745,fd=36))                        
+tcp   LISTEN 0      4096      127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=550,fd=17))                
+tcp   LISTEN 0      100          0.0.0.0:25        0.0.0.0:*    users:(("smtpd",pid=1479,fd=6),("master",pid=1123,fd=13))
+tcp   LISTEN 0      4096         0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=1143,fd=3),("systemd",pid=1,fd=93))   
+tcp   LISTEN 0      100          0.0.0.0:993       0.0.0.0:*    users:(("dovecot",pid=745,fd=38))                        
+tcp   LISTEN 0      100             [::]:143          [::]:*    users:(("dovecot",pid=745,fd=37))                        
+tcp   LISTEN 0      4096            [::]:22           [::]:*    users:(("sshd",pid=1143,fd=4),("systemd",pid=1,fd=94))   
+tcp   LISTEN 0      100             [::]:993          [::]:*    users:(("dovecot",pid=745,fd=39))                        
+
+##### INT-02 estado tras arranque #####
+2026-10-08 00:51:58
+uptime: up 4 minutes
+
+##### servicios #####
+enabled
+enabled
+● postfix.service - Postfix Mail Transport Agent
+     Active: active (exited) since Thu 2026-10-08 00:52:17 UTC; 4min 26s ago
+● dovecot.service - Dovecot IMAP/POP3 email server
+     Active: active (running) since Thu 2026-10-08 00:52:14 UTC; 4min 29s ago
+
+##### postconf -n #####
+alias_database = hash:/etc/aliases
+alias_maps = hash:/etc/aliases
+append_dot_mydomain = no
+biff = no
+compatibility_level = 3.6
+home_mailbox = Maildir/
+inet_interfaces = all
+inet_protocols = ipv4
+local_recipient_maps = proxy:unix:passwd.byname $alias_maps ldap:/etc/postfix/ldap-users.cf
+mailbox_size_limit = 0
+mailbox_transport = lmtp:unix:private/dovecot-lmtp
+mydestination = $myhostname, $mydomain, localhost
+mydomain = agencia.redes.test
+myhostname = mail.agencia.redes.test
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+myorigin = $mydomain
+readme_directory = no
+recipient_delimiter = +
+relayhost =
+smtp_tls_CApath = /etc/ssl/certs
+smtp_tls_security_level = may
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+smtpd_banner = $myhostname ESMTP $mail_name (Ubuntu)
+smtpd_recipient_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_unauth_destination
+smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_path = private/auth
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_type = dovecot
+smtpd_tls_cert_file = /etc/ssl/certs/ssl-cert-snakeoil.pem
+smtpd_tls_key_file = /etc/ssl/private/ssl-cert-snakeoil.key
+smtpd_tls_security_level = may
+
+##### doveconf -n #####
+# 2.3.21 (47349e2482): /etc/dovecot/dovecot.conf
+# Pigeonhole version 0.5.21 (f6cd4b8e)
+# OS: Linux 6.8.0-146-generic x86_64 Ubuntu 24.04.5 LTS 
+# Hostname: mail
+auth_username_format = %Ln
+disable_plaintext_auth = no
+mail_location = maildir:~/Maildir
+mail_privileged_group = mail
+namespace inbox {
+  inbox = yes
+  location = 
+  mailbox Drafts {
+    special_use = \Drafts
+  }
+  mailbox Junk {
+    special_use = \Junk
+  }
+  mailbox Sent {
+    special_use = \Sent
+  }
+  mailbox "Sent Messages" {
+    special_use = \Sent
+  }
+  mailbox Trash {
+    special_use = \Trash
+  }
+  prefix = 
+}
+passdb {
+  args = /etc/dovecot/dovecot-ldap.conf.ext
+  driver = ldap
+}
+passdb {
+  driver = pam
+}
+protocols = " imap lmtp"
+service auth {
+  unix_listener /var/spool/postfix/private/auth {
+    group = postfix
+    mode = 0660
+    user = postfix
+  }
+}
+service lmtp {
+  unix_listener /var/spool/postfix/private/dovecot-lmtp {
+    group = postfix
+    mode = 0600
+    user = postfix
+  }
+}
+ssl_cert = </etc/dovecot/private/dovecot.pem
+ssl_client_ca_dir = /etc/ssl/certs
+ssl_dh = # hidden, use -P to show it
+ssl_key = # hidden, use -P to show it
+userdb {
+  args = /etc/dovecot/dovecot-ldap.conf.ext
+  driver = ldap
+}
+userdb {
+  driver = passwd
+}
+
+##### buzones #####
+total 24
+drwx------ 3 vmail vmail 4096 Oct  7 23:33 camila.richter
+drwx------ 3 vmail vmail 4096 Oct  7 23:33 carlos.alburez
+drwx------ 3 vmail vmail 4096 Oct  7 23:31 ernesto.ascencio
+drwx------ 3 vmail vmail 4096 Oct  7 23:33 juan.martinez
+drwx------ 3 vmail vmail 4096 Oct  7 23:31 kevin.villagran
+drwx------ 3 vmail vmail 4096 Oct  7 23:33 marines.garcia
+
+##### INT-04 log #####
+Oct 08 00:32:48 mail dovecot[831]: lmtp(1497): Disconnect from local: Logged out (state=READY)
+Oct 08 00:32:51 mail dovecot[831]: imap-login: Login: user=<kevin.villagran>, method=PLAIN, rip=192.168.68.64, lip=192.168.71.13, mpid=1502, session=<8PwxX0ld4dLAqERA>
+Oct 08 00:32:51 mail dovecot[831]: imap(kevin.villagran)<1502><8PwxX0ld4dLAqERA>: Disconnected: Logged out in=75 out=880 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:33:44 mail dovecot[792]: master: Warning: Time moved forwards by 0.134358 seconds - adjusting timeouts.
+Oct 08 00:33:59 mail auth[1574]: pam_unix(dovecot:auth): check pass; user unknown
+Oct 08 00:33:59 mail auth[1574]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=kevin.villagran rhost=192.168.71.13
+Oct 08 00:34:06 mail dovecot[831]: imap-login: Disconnected: Connection closed (auth failed, 1 attempts in 7 secs): user=<kevin.villagran>, method=PLAIN, rip=192.168.71.13, lip=192.168.71.13, secured, session=<FMJFY0ldXoPAqEcN>
+Oct 08 00:34:08 mail dovecot[831]: auth: Error: ldap(/etc/dovecot/dovecot-ldap.conf.ext): Connection lost to LDAP server, reconnecting
+Oct 08 00:34:08 mail dovecot[831]: auth-worker(1574): Error: ldap(/etc/dovecot/dovecot-ldap.conf.ext): Connection lost to LDAP server, reconnecting
+Oct 08 00:34:08 mail dovecot[831]: auth-worker(1574): Error: ldap(/etc/dovecot/dovecot-ldap.conf.ext): Can't connect to server: ldap://ldap.agencia.redes.test
+Oct 08 00:34:08 mail dovecot[831]: auth: Error: ldap(/etc/dovecot/dovecot-ldap.conf.ext): Can't connect to server: ldap://ldap.agencia.redes.test
+Oct 08 00:34:11 mail dovecot[831]: auth: Error: ldap(/etc/dovecot/dovecot-ldap.conf.ext): Can't connect to server: ldap://ldap.agencia.redes.test
+Oct 08 00:34:11 mail auth[1574]: pam_unix(dovecot:auth): check pass; user unknown
+Oct 08 00:34:11 mail auth[1574]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=kevin.villagran rhost=192.168.71.13
+Oct 08 00:34:15 mail dovecot[831]: imap-login: Disconnected: Connection closed (auth service reported temporary failure): user=<kevin.villagran>, method=PLAIN, rip=192.168.71.13, lip=192.168.71.13, secured, session=<TbylY0ldTKvAqEcN>
+Oct 08 00:34:59 mail dovecot[792]: master: Warning: Time moved forwards by 0.216784 seconds - adjusting timeouts.
+Oct 08 00:35:00 mail dovecot[792]: master: Warning: Time moved forwards by 0.604633 seconds - adjusting timeouts.
+Oct 08 00:35:20 mail dovecot[831]: auth: Error: ldap(/etc/dovecot/dovecot-ldap.conf.ext): Can't connect to server: ldap://ldap.agencia.redes.test
+Oct 08 00:35:20 mail dovecot[831]: auth-worker(1592): Error: ldap(/etc/dovecot/dovecot-ldap.conf.ext): Can't connect to server: ldap://ldap.agencia.redes.test
+Oct 08 00:35:20 mail auth[1592]: pam_unix(dovecot:auth): check pass; user unknown
+Oct 08 00:35:20 mail auth[1592]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=kevin.villagran rhost=
+Oct 08 00:48:55 mail dovecot[831]: lmtp(1802): Connect from local
+Oct 08 00:48:55 mail dovecot[831]: lmtp(1802): Error: lmtp-server: conn unix:pid=1801,uid=110 [1]: rcpt root@agencia.redes.test: Failed to lookup user root@agencia.redes.test: Invalid settings in userdb: userdb returned 0 as uid
+Oct 08 00:48:55 mail dovecot[831]: lmtp(1802): Disconnect from local: Logged out (state=READY)
+Oct 08 00:48:55 mail auth[1806]: pam_unix(dovecot:auth): check pass; user unknown
+Oct 08 00:48:55 mail auth[1806]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=kevin.villagran rhost=192.168.71.13
+Oct 08 00:48:59 mail dovecot[831]: imap-login: Disconnected: Connection closed (auth failed, 1 attempts in 4 secs): user=<kevin.villagran>, method=PLAIN, rip=192.168.71.13, lip=192.168.71.13, secured, session=<RfipmEldjKbAqEcN>
+Oct 08 00:49:05 mail dovecot[831]: imap-login: Login: user=<kevin.villagran>, method=PLAIN, rip=192.168.71.13, lip=192.168.71.13, mpid=1809, secured, session=<aFjlmEldnKbAqEcN>
+Oct 08 00:49:05 mail dovecot[831]: imap(kevin.villagran)<1809><aFjlmEldnKbAqEcN>: Disconnected: Logged out in=32 out=823 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:49:06 mail dovecot[831]: lmtp(1802): Connect from local
+Oct 08 00:49:06 mail dovecot[831]: lmtp(ana)<1802><WHbWAILoxmoKBwAAZU03Dg>: msgid=<20261008004906.01D1042BA7@mail.agencia.redes.test>: saved mail to INBOX
+Oct 08 00:49:06 mail dovecot[831]: lmtp(1802): Disconnect from local: Logged out (state=READY)
+Oct 08 00:49:08 mail dovecot[831]: lmtp(1802): Connect from local
+Oct 08 00:49:09 mail dovecot[831]: lmtp(1802): Error: lmtp-server: conn unix:pid=1801,uid=110 [3]: rcpt root@agencia.redes.test: Failed to lookup user root@agencia.redes.test: Invalid settings in userdb: userdb returned 0 as uid
+Oct 08 00:49:09 mail dovecot[831]: lmtp(1802): Disconnect from local: Logged out (state=READY)
+Oct 08 00:51:45 mail systemd[1]: Stopping dovecot.service - Dovecot IMAP/POP3 email server...
+Oct 08 00:51:45 mail systemd[1]: postfix.service: Deactivated successfully.
+Oct 08 00:51:45 mail systemd[1]: Stopped postfix.service - Postfix Mail Transport Agent.
+Oct 08 00:51:45 mail dovecot[792]: master: Warning: Killed with signal 15 (by pid=2087 uid=0 code=kill)
+Oct 08 00:51:45 mail dovecot[831]: imap(ana)<1355><w9bEOUldNcLAqERC>: Disconnected: Server shutting down. in=2589 out=13813 deleted=0 expunged=0 trashed=0 hdr_count=8 hdr_bytes=3000 body_count=8 body_bytes=3461
+Oct 08 00:51:45 mail dovecot[831]: imap(kevin.villagran)<1475><CCmGTkldh+bAqERC>: Disconnected: Server shutting down. in=1205 out=5802 deleted=0 expunged=0 trashed=0 hdr_count=2 hdr_bytes=532 body_count=2 body_bytes=692
+Oct 08 00:51:45 mail dovecot[831]: imap(ernesto.ascencio)<1315><uWcPL0ldkMXAqERA>: Disconnected: Server shutting down. in=441 out=2765 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:51:45 mail dovecot[831]: imap(kevin.villagran)<1473><5jGLTkldhebAqERC>: Disconnected: Server shutting down. in=134 out=810 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:51:45 mail dovecot[831]: imap(ana)<1495><7tgeWkld9PnAqERC>: Disconnected: Server shutting down. in=154 out=735 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:51:45 mail dovecot[831]: imap(kevin.villagran)<1474><MSCLTkldhubAqERC>: Disconnected: Server shutting down. in=2718 out=6099 deleted=0 expunged=0 trashed=0 hdr_count=3 hdr_bytes=804 body_count=0 body_bytes=0
+Oct 08 00:51:46 mail systemd[1]: dovecot.service: Deactivated successfully.
+Oct 08 00:51:46 mail systemd[1]: Stopped dovecot.service - Dovecot IMAP/POP3 email server.
+Oct 08 00:51:46 mail systemd[1]: dovecot.service: Consumed 1.788s CPU time, 40.1M memory peak, 0B memory swap peak.
+-- Boot e86e181d66d342ce82a49c961e2c2343 --
+Oct 08 00:52:13 mail systemd[1]: Starting dovecot.service - Dovecot IMAP/POP3 email server...
+Oct 08 00:52:14 mail dovecot[745]: master: Dovecot v2.3.21 (47349e2482) starting up for imap, lmtp (core dumps disabled)
+Oct 08 00:52:14 mail systemd[1]: Started dovecot.service - Dovecot IMAP/POP3 email server.
+Oct 08 00:52:17 mail systemd[1]: Starting postfix.service - Postfix Mail Transport Agent...
+Oct 08 00:52:17 mail systemd[1]: Finished postfix.service - Postfix Mail Transport Agent.
+Oct 08 00:52:44 mail dovecot[761]: imap-login: Warning: Auth process not responding, delayed sending initial response (greeting): user=<>, rip=192.168.68.66, lip=192.168.71.13, session=<2JpNpkldQ/3AqERC>
+Oct 08 00:52:44 mail dovecot[761]: imap-login: Warning: Auth process not responding, delayed sending initial response (greeting): user=<>, rip=192.168.68.66, lip=192.168.71.13, session=<Ax1OpkldRP3AqERC>
+Oct 08 00:52:50 mail dovecot[761]: auth: Error: ldap(/etc/dovecot/dovecot-ldap.conf.ext): Can't connect to server: ldap://ldap.agencia.redes.test
+Oct 08 00:53:05 mail dovecot[761]: auth: Error: ldap(/etc/dovecot/dovecot-ldap.conf.ext): Can't connect to server: ldap://ldap.agencia.redes.test
+Oct 08 00:53:22 mail dovecot[761]: auth: Error: ldap(/etc/dovecot/dovecot-ldap.conf.ext): Can't connect to server: ldap://ldap.agencia.redes.test
+Oct 08 00:53:22 mail dovecot[761]: auth-worker(1156): Error: ldap(/etc/dovecot/dovecot-ldap.conf.ext): Can't connect to server: ldap://ldap.agencia.redes.test
+Oct 08 00:53:22 mail auth[1156]: pam_unix(dovecot:auth): check pass; user unknown
+Oct 08 00:53:22 mail auth[1156]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=kevin.villagran rhost=192.168.68.66
+Oct 08 00:53:26 mail dovecot[761]: imap-login: Disconnected: Connection closed (auth service reported temporary failure): user=<kevin.villagran>, method=PLAIN, rip=192.168.68.66, lip=192.168.71.13, session=<Ax1OpkldRP3AqERC>
+Oct 08 00:53:39 mail dovecot[761]: auth-worker(1288): Error: ldap(/etc/dovecot/dovecot-ldap.conf.ext): Can't connect to server: ldap://ldap.agencia.redes.test
+Oct 08 00:53:54 mail dovecot[761]: lmtp(1314): Connect from local
+Oct 08 00:53:54 mail dovecot[761]: auth: Error: ldap(/etc/dovecot/dovecot-ldap.conf.ext): Can't connect to server: ldap://ldap.agencia.redes.test
+Oct 08 00:54:11 mail dovecot[761]: auth: Error: ldap(/etc/dovecot/dovecot-ldap.conf.ext): Can't connect to server: ldap://ldap.agencia.redes.test
+Oct 08 00:54:13 mail dovecot[761]: lmtp(1314): Error: lmtp-server: conn unix:pid=1313,uid=110 [1]: rcpt root@agencia.redes.test: Failed to lookup user root@agencia.redes.test: Invalid settings in userdb: userdb returned 0 as uid
+Oct 08 00:54:13 mail dovecot[761]: imap-login: Login: user=<ana>, method=PLAIN, rip=192.168.68.66, lip=192.168.71.13, mpid=1296, session=<2JpNpkldQ/3AqERC>
+Oct 08 00:54:13 mail dovecot[761]: lmtp(1314): Disconnect from local: Logged out (state=READY)
+Oct 08 00:55:23 mail auth[1476]: pam_unix(dovecot:auth): check pass; user unknown
+Oct 08 00:55:23 mail auth[1476]: pam_unix(dovecot:auth): authentication failure; logname= uid=0 euid=0 tty=dovecot ruser=kevin.villagran rhost=192.168.71.13
+Oct 08 00:55:42 mail dovecot[761]: imap-login: Disconnected: Connection closed (auth failed, 1 attempts in 20 secs): user=<kevin.villagran>, method=PLAIN, rip=192.168.71.13, lip=192.168.71.13, secured, session=<JLvBr0ldTo7AqEcN>
+Oct 08 00:55:42 mail dovecot[761]: imap-login: Login: user=<kevin.villagran>, method=PLAIN, rip=192.168.71.13, lip=192.168.71.13, mpid=1478, secured, session=<nE7qsEldOObAqEcN>
+Oct 08 00:55:42 mail dovecot[761]: imap(kevin.villagran)<1478><nE7qsEldOObAqEcN>: Disconnected: Logged out in=32 out=831 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Oct 08 00:56:00 mail dovecot[761]: lmtp(1487): Connect from local
+Oct 08 00:56:01 mail dovecot[761]: lmtp(ana)<1487><4uz/OCDqxmrPBQAAZU03Dg>: msgid=<20261008005600.D8FEA42845@mail.agencia.redes.test>: saved mail to INBOX
+Oct 08 00:56:01 mail dovecot[761]: lmtp(1487): Disconnect from local: Logged out (state=READY)
+Oct 08 00:56:12 mail dovecot[761]: lmtp(1487): Connect from local
+Oct 08 00:56:12 mail dovecot[761]: lmtp(1487): Error: lmtp-server: conn unix:pid=1486,uid=110 [2]: rcpt root@agencia.redes.test: Failed to lookup user root@agencia.redes.test: Invalid settings in userdb: userdb returned 0 as uid
+Oct 08 00:56:12 mail dovecot[761]: lmtp(1487): Disconnect from local: Logged out (state=READY)

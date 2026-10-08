@@ -1,0 +1,113 @@
+Evidencia www | Wed Oct  7 23:52:39 UTC 2026 | Host: www | IP: 192.168.71.12 
+
+##### INT-03 puertos (ss -lntup) #####
+Netid State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess                                                                            
+udp   UNCONN 0      0         127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=460,fd=16))                                         
+udp   UNCONN 0      0      127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=460,fd=14))                                         
+tcp   LISTEN 0      4096         0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=995,fd=3),("systemd",pid=1,fd=92))                             
+tcp   LISTEN 0      4096      127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=460,fd=17))                                         
+tcp   LISTEN 0      4096   127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=460,fd=15))                                         
+tcp   LISTEN 0      511                *:80              *:*    users:(("apache2",pid=790,fd=4),("apache2",pid=789,fd=4),("apache2",pid=788,fd=4))
+tcp   LISTEN 0      4096            [::]:22           [::]:*    users:(("sshd",pid=995,fd=4),("systemd",pid=1,fd=93))                             
+
+##### INT-02 estado tras arranque #####
+2026-10-07 22:24:57
+uptime: up 1 hour, 27 minutes
+
+##### servicio #####
+enabled
+● apache2.service - The Apache HTTP Server
+     Loaded: loaded (/usr/lib/systemd/system/apache2.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2026-10-07 22:02:21 UTC; 1h 50min ago
+       Docs: https://httpd.apache.org/docs/2.4/
+    Process: 760 ExecStart=/usr/sbin/apachectl start (code=exited, status=0/SUCCESS)
+   Main PID: 788 (apache2)
+      Tasks: 55 (limit: 2209)
+     Memory: 15.2M (peak: 15.4M)
+
+##### sitios y modulos #####
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1. Set the 'ServerName' directive globally to suppress this message
+VirtualHost configuration:
+*:80                   127.0.1.1 (/etc/apache2/sites-enabled/000-default.conf:1)
+ServerRoot: "/etc/apache2"
+Main DocumentRoot: "/var/www/html"
+Main ErrorLog: "/var/log/apache2/error.log"
+Mutex watchdog-callback: using_defaults
+Mutex ldap-cache: using_defaults
+Mutex default: dir="/var/run/apache2/" mechanism=default 
+PidFile: "/var/run/apache2/apache2.pid"
+Define: DUMP_VHOSTS
+Define: DUMP_RUN_CFG
+User: name="www-data" id=33
+Group: name="www-data" id=33
+ authnz_ldap_module (shared)
+ ldap_module (shared)
+
+##### config del sitio (sin claves) #####
+--- /etc/apache2/sites-enabled/000-default.conf
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    <Directory /var/www/html/protegido>
+        AuthType Basic
+        AuthName "Solo Empleados - Ingresa credenciales"
+        AuthBasicProvider ldap
+        AuthLDAPURL "ldap://192.168.71.11/ou=People,dc=agencia,dc=redes,dc=test?uid"
+        Require valid-user
+    </Directory>
+</VirtualHost>
+
+##### carpeta protegida #####
+total 8
+-rw-r--r-- 1 admincarlitos admincarlitos 4017 Oct  7 23:31 index.html
+drwxr-xr-x 2 root          root          4096 Oct  7 23:32 protegido
+
+##### INT-04 access.log #####
+::1 - - [06/Oct/2026:23:44:05 +0000] "HEAD / HTTP/1.1" 200 252 "-" "curl/8.5.0"
+::1 - - [06/Oct/2026:23:56:49 +0000] "HEAD /protegido/ HTTP/1.1" 401 214 "-" "curl/8.5.0"
+192.168.71.12 - - [07/Oct/2026:21:16:25 +0000] "HEAD /protegido/ HTTP/1.1" 401 214 "-" "curl/8.5.0"
+192.168.68.64 - - [07/Oct/2026:23:31:16 +0000] "GET / HTTP/1.1" 200 4270 "-" "curl/8.7.1"
+192.168.68.64 - ernesto.ascencio [07/Oct/2026:23:31:16 +0000] "GET /protegido/ HTTP/1.1" 200 1826 "-" "curl/8.7.1"
+192.168.68.64 - ernesto.ascencio [07/Oct/2026:23:31:16 +0000] "GET /protegido/ HTTP/1.1" 401 704 "-" "curl/8.7.1"
+192.168.68.64 - noexiste [07/Oct/2026:23:31:16 +0000] "GET /protegido/ HTTP/1.1" 401 704 "-" "curl/8.7.1"
+192.168.68.64 - - [07/Oct/2026:23:36:34 +0000] "GET / HTTP/1.1" 200 4270 "-" "curl/8.7.1"
+192.168.68.64 - ernesto.ascencio [07/Oct/2026:23:36:34 +0000] "GET /protegido/ HTTP/1.1" 200 1826 "-" "curl/8.7.1"
+192.168.68.64 - ernesto.ascencio [07/Oct/2026:23:36:35 +0000] "GET /protegido/ HTTP/1.1" 401 704 "-" "curl/8.7.1"
+192.168.68.64 - noexiste [07/Oct/2026:23:36:35 +0000] "GET /protegido/ HTTP/1.1" 401 704 "-" "curl/8.7.1"
+192.168.68.64 - - [07/Oct/2026:23:37:59 +0000] "GET / HTTP/1.1" 200 4270 "-" "curl/8.7.1"
+192.168.68.64 - ernesto.ascencio [07/Oct/2026:23:37:59 +0000] "GET /protegido/ HTTP/1.1" 200 1826 "-" "curl/8.7.1"
+192.168.68.64 - ernesto.ascencio [07/Oct/2026:23:37:59 +0000] "GET /protegido/ HTTP/1.1" 401 704 "-" "curl/8.7.1"
+192.168.68.64 - noexiste [07/Oct/2026:23:37:59 +0000] "GET /protegido/ HTTP/1.1" 401 704 "-" "curl/8.7.1"
+192.168.68.64 - - [07/Oct/2026:23:39:56 +0000] "GET / HTTP/1.1" 200 4270 "-" "curl/8.7.1"
+192.168.68.64 - ernesto.ascencio [07/Oct/2026:23:39:56 +0000] "GET /protegido/ HTTP/1.1" 200 1826 "-" "curl/8.7.1"
+192.168.68.64 - ernesto.ascencio [07/Oct/2026:23:39:56 +0000] "GET /protegido/ HTTP/1.1" 401 704 "-" "curl/8.7.1"
+192.168.68.64 - noexiste [07/Oct/2026:23:39:56 +0000] "GET /protegido/ HTTP/1.1" 401 704 "-" "curl/8.7.1"
+192.168.68.64 - - [07/Oct/2026:23:44:13 +0000] "GET / HTTP/1.1" 200 4270 "-" "curl/8.7.1"
+192.168.68.64 - ernesto.ascencio [07/Oct/2026:23:44:13 +0000] "GET /protegido/ HTTP/1.1" 200 1826 "-" "curl/8.7.1"
+
+##### INT-04 error.log #####
+[Tue Oct 06 23:39:56.172146 2026] [mpm_event:notice] [pid 2149:tid 271993615355936] AH00489: Apache/2.4.58 (Ubuntu) configured -- resuming normal operations
+[Tue Oct 06 23:39:56.172166 2026] [core:notice] [pid 2149:tid 271993615355936] AH00094: Command line: '/usr/sbin/apache2'
+[Tue Oct 06 23:40:10.963900 2026] [mpm_event:notice] [pid 2149:tid 271993615355936] AH00492: caught SIGWINCH, shutting down gracefully
+[Tue Oct 06 23:40:11.000989 2026] [mpm_event:notice] [pid 2486:tid 267491348140064] AH00489: Apache/2.4.58 (Ubuntu) configured -- resuming normal operations
+[Tue Oct 06 23:40:11.001024 2026] [core:notice] [pid 2486:tid 267491348140064] AH00094: Command line: '/usr/sbin/apache2'
+[Tue Oct 06 23:41:17.220536 2026] [mpm_event:notice] [pid 2486:tid 267491348140064] AH00492: caught SIGWINCH, shutting down gracefully
+[Tue Oct 06 23:41:17.262084 2026] [mpm_event:notice] [pid 2571:tid 254405009633312] AH00489: Apache/2.4.58 (Ubuntu) configured -- resuming normal operations
+[Tue Oct 06 23:41:17.262109 2026] [core:notice] [pid 2571:tid 254405009633312] AH00094: Command line: '/usr/sbin/apache2'
+[Tue Oct 06 23:58:14.875130 2026] [mpm_event:notice] [pid 2571:tid 254405009633312] AH00492: caught SIGWINCH, shutting down gracefully
+[Wed Oct 07 21:15:13.301434 2026] [mpm_event:notice] [pid 835:tid 264541381599264] AH00489: Apache/2.4.58 (Ubuntu) configured -- resuming normal operations
+[Wed Oct 07 21:15:13.302778 2026] [core:notice] [pid 835:tid 264541381599264] AH00094: Command line: '/usr/sbin/apache2'
+[Wed Oct 07 21:35:25.119221 2026] [mpm_event:notice] [pid 835:tid 264541381599264] AH00492: caught SIGWINCH, shutting down gracefully
+[Wed Oct 07 22:02:21.911525 2026] [mpm_event:notice] [pid 788:tid 262159203713056] AH00489: Apache/2.4.58 (Ubuntu) configured -- resuming normal operations
+[Wed Oct 07 22:02:21.913872 2026] [core:notice] [pid 788:tid 262159203713056] AH00094: Command line: '/usr/sbin/apache2'
+[Wed Oct 07 23:31:16.887282 2026] [auth_basic:error] [pid 790:tid 262159151395104] [client 192.168.68.64:54497] AH01617: user ernesto.ascencio: authentication failure for "/protegido/": Password Mismatch
+[Wed Oct 07 23:31:16.941453 2026] [auth_basic:error] [pid 789:tid 262159142940960] [client 192.168.68.64:54498] AH01618: user noexiste not found: /protegido/
+[Wed Oct 07 23:36:35.116971 2026] [auth_basic:error] [pid 790:tid 262159117578528] [client 192.168.68.64:55848] AH01617: user ernesto.ascencio: authentication failure for "/protegido/": Password Mismatch
+[Wed Oct 07 23:36:35.153954 2026] [auth_basic:error] [pid 789:tid 262159109124384] [client 192.168.68.64:55849] AH01618: user noexiste not found: /protegido/
+[Wed Oct 07 23:37:59.911585 2026] [auth_basic:error] [pid 790:tid 262159015473440] [client 192.168.68.64:56221] AH01617: user ernesto.ascencio: authentication failure for "/protegido/": Password Mismatch
+[Wed Oct 07 23:38:00.092310 2026] [auth_basic:error] [pid 789:tid 262159007019296] [client 192.168.68.64:56226] AH01618: user noexiste not found: /protegido/
+[Wed Oct 07 23:39:56.579306 2026] [auth_basic:error] [pid 790:tid 262158981656864] [client 192.168.68.64:56740] AH01617: user ernesto.ascencio: authentication failure for "/protegido/": Password Mismatch
+[Wed Oct 07 23:39:56.639081 2026] [auth_basic:error] [pid 789:tid 262158973202720] [client 192.168.68.64:56741] AH01618: user noexiste not found: /protegido/

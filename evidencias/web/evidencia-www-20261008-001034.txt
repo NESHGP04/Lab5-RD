@@ -1,0 +1,72 @@
+Evidencia www | Thu Oct  8 00:10:34 UTC 2026 | Host: www | IP: 192.168.71.12 
+
+##### INT-03 puertos (ss -lntup) #####
+Netid State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess                                                                            
+udp   UNCONN 0      0         127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=471,fd=16))                                         
+udp   UNCONN 0      0      127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=471,fd=14))                                         
+tcp   LISTEN 0      4096         0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=1011,fd=3),("systemd",pid=1,fd=92))                            
+tcp   LISTEN 0      4096      127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=471,fd=17))                                         
+tcp   LISTEN 0      4096   127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=471,fd=15))                                         
+tcp   LISTEN 0      511                *:80              *:*    users:(("apache2",pid=801,fd=4),("apache2",pid=800,fd=4),("apache2",pid=799,fd=4))
+tcp   LISTEN 0      4096            [::]:22           [::]:*    users:(("sshd",pid=1011,fd=4),("systemd",pid=1,fd=93))                            
+
+##### INT-02 estado tras arranque #####
+2026-10-08 00:09:50
+uptime: up 0 minutes
+
+##### servicio #####
+enabled
+● apache2.service - The Apache HTTP Server
+     Loaded: loaded (/usr/lib/systemd/system/apache2.service; enabled; preset: enabled)
+     Active: active (running) since Thu 2026-10-08 00:09:53 UTC; 41s ago
+       Docs: https://httpd.apache.org/docs/2.4/
+    Process: 774 ExecStart=/usr/sbin/apachectl start (code=exited, status=0/SUCCESS)
+   Main PID: 799 (apache2)
+      Tasks: 55 (limit: 2209)
+     Memory: 13.3M (peak: 13.4M)
+
+##### sitios y modulos #####
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1. Set the 'ServerName' directive globally to suppress this message
+VirtualHost configuration:
+*:80                   127.0.1.1 (/etc/apache2/sites-enabled/000-default.conf:1)
+ServerRoot: "/etc/apache2"
+Main DocumentRoot: "/var/www/html"
+Main ErrorLog: "/var/log/apache2/error.log"
+Mutex ldap-cache: using_defaults
+Mutex default: dir="/var/run/apache2/" mechanism=default 
+Mutex watchdog-callback: using_defaults
+PidFile: "/var/run/apache2/apache2.pid"
+Define: DUMP_VHOSTS
+Define: DUMP_RUN_CFG
+User: name="www-data" id=33
+Group: name="www-data" id=33
+ authnz_ldap_module (shared)
+ ldap_module (shared)
+
+##### config del sitio (sin claves) #####
+--- /etc/apache2/sites-enabled/000-default.conf
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    <Directory /var/www/html/protegido>
+        AuthType Basic
+        AuthName "Solo Empleados - Ingresa credenciales"
+        AuthBasicProvider ldap
+        AuthLDAPURL "ldap://192.168.71.11/ou=People,dc=agencia,dc=redes,dc=test?uid"
+        Require valid-user
+    </Directory>
+</VirtualHost>
+
+##### carpeta protegida #####
+total 8
+-rw-r--r-- 1 admincarlitos admincarlitos 4017 Oct  7 23:31 index.html
+drwxr-xr-x 2 root          root          4096 Oct  7 23:32 protegido
+
+##### INT-04 access.log #####
+
+##### INT-04 error.log #####
+[Thu Oct 08 00:09:53.867811 2026] [mpm_event:notice] [pid 799:tid 259262448238624] AH00489: Apache/2.4.58 (Ubuntu) configured -- resuming normal operations
+[Thu Oct 08 00:09:53.867842 2026] [core:notice] [pid 799:tid 259262448238624] AH00094: Command line: '/usr/sbin/apache2'

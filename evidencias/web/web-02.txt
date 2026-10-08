@@ -1,0 +1,4 @@
+PRUEBA WEB-02 | Navegador -> http://www.agencia.redes.test/
+Cliente: Ernestos-MacBook-Pro.local | DNS: 192.168.71.10
+Resultado: pagina principal cargada. HTTP 200.
+Respaldo real: WEB-02: PASS - pagina principal 200

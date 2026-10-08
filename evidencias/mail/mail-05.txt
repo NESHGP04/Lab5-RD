@@ -1,0 +1,3 @@
+PRUEBA MAIL-05 | Envio ernesto.ascencio -> kevin.villagran
+Resultado: Postfix acepta y entrega por LMTP.
+Respaldo real: MAIL-05: PASS - SMTP acepto: Prueba MAIL-05 183242; log status=sent en evidencias/mail/RESUMEN-pruebas-correo.md
