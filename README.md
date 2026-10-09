@@ -32,12 +32,14 @@ dns/                          Configuración de BIND9
 scripts/
   test-dns.sh                 Pruebas DNS-01..05 + resolución WEB/MAIL/FTP (guarda evidencia)
   validar-dns-docker.sh       Validación previa de la config en un contenedor
+  test-matriz.sh              Matriz completa (DNS/LDAP/WEB/MAIL/FTP/INT) desde el cliente; claves por variables de entorno
 docs/
   guia-vm-utm.md              Cómo crear la VM en UTM (Bridged) – sirve para todo el equipo
   guia-implementacion-dns.md  Pasos para montar el DNS en la VM
   tabla-resolucion-dns.md     Tabla de resolución de nombres
   diagrama-red.md             Diagrama de red
   pruebas-dns.md              Pruebas DNS y sus resultados
+  matriz-pruebas.md           Matriz de pruebas del Ejercicio 6 (33 filas)
   pendientes-para-equipo.md   Qué necesita cada integrante
   bitacora.md                 Bitácora de lo realizado
 evidencias/dns/               Salidas de dig/nslookup/ss/journalctl y capturas
@@ -51,7 +53,7 @@ evidencias/dns/               Salidas de dig/nslookup/ss/journalctl y capturas
 | b. Tabla de resolución de nombres DNS | [docs/tabla-resolucion-dns.md](docs/tabla-resolucion-dns.md) |
 | c. Archivo de zona DNS | [dns/zones/db.agencia.redes.test](dns/zones/db.agencia.redes.test) |
 | d. Archivo LDIF con los usuarios | ⬜ Pendiente (Cisco) |
-| e. PDF con configuraciones, matriz de pruebas, evidencias y roles | ⬜ En preparación |
+| e. PDF con configuraciones, matriz de pruebas, evidencias y roles | ⬜ En preparación · matriz: [docs/matriz-pruebas.md](docs/matriz-pruebas.md) |
 
 ## Cómo reproducir el DNS
 
